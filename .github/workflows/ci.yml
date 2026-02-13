@@ -1,0 +1,45 @@
+name: Documentation CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate markdown structure
+        run: |
+          echo "Checking README exists..."
+          if [ ! -f "README.md" ]; then
+            echo "::error::README.md not found"
+            exit 1
+          fi
+          echo "README.md found ($(wc -w < README.md) words)"
+
+      - name: Check for required files
+        run: |
+          echo "Checking required files..."
+          for file in README.md CHANGELOG.md LICENSE; do
+            if [ -f "$file" ]; then
+              echo "✓ $file exists"
+            else
+              echo "::warning::$file not found"
+            fi
+          done
+
+      - name: Validate links (optional)
+        continue-on-error: true
+        run: |
+          echo "Checking for broken internal references..."
+          if command -v grep &> /dev/null; then
+            # Check for common broken link patterns
+            grep -rn '\[.*\](.*404.*)' README.md || echo "No 404 references found"
+          fi
