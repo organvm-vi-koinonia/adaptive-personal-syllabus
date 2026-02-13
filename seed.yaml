@@ -1,7 +1,6 @@
 # seed.yaml — Automation Contract for organvm-vi-koinonia/adaptive-personal-syllabus
 # Schema: seed/v1.0
-# Generated: 2026-02-12 (AUTONOMY Sprint)
-# Category: standard
+# Updated: AUTONOMY Sprint Phase E (orphan resolution)
 
 schema_version: "1.0"
 organ: VI
@@ -13,15 +12,25 @@ metadata:
   implementation_status: DESIGN_ONLY
   tier: standard
   promotion_status: LOCAL
-  last_validated: "2026-02-12"
-  generated: "2026-02-12"
-  sprint: "AUTONOMY"
+  last_validated: 2026-02-12
+  generated: 2026-02-12
+  sprint: AUTONOMY
 
 agents:
   - name: ci
     trigger: on_push
     workflow: .github/workflows/ci-minimal.yml
     description: "Continuous integration pipeline"
+
+produces:
+  - type: community-resource
+    description: "Community curriculum, salon archive, or collaborative resource"
+    consumers: [ORGAN-IV]
+
+consumes:
+  - type: essay
+    source: ORGAN-V
+    description: Published essays feed reading group discussions
 
 subscriptions:
   - event: governance.updated
