@@ -1,5 +1,13 @@
 # Adaptive Personal Syllabus
 
+[![CI](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/actions/workflows/ci.yml/badge.svg)](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-pending-lightgrey)](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/blob/main/LICENSE)
+[![Organ VI](https://img.shields.io/badge/Organ-VI%20Koinonia-6366F1)](https://github.com/organvm-vi-koinonia)
+[![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus)
+[![Python](https://img.shields.io/badge/lang-Python-informational)](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus)
+
+
 ![CI](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/actions/workflows/ci-python.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Organ VI](https://img.shields.io/badge/ORGAN--VI-Community-purple)
