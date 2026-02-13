@@ -1,0 +1,108 @@
+version: 1
+
+project:
+  name: "community"
+  codename: "reciprocal-continuity"
+  description: "Community governance, contribution frameworks, and cultivation protocols."
+  owners:
+    - handle: "4jp"
+      role: "architect"
+  repo:
+    monorepo: false
+    package_manager: "npm"
+    type: "community-platform"
+
+organ:
+  number: VI
+  role: "cultivation"
+  github_org: "TBD"  # To be assigned
+  upstream: ["V"]    # Receives from Public Process
+  downstream: ["VII"] # Sends to Marketing
+
+domain:
+  problem_statement: >
+    Foster an engaged, self-governing community that contributes to and
+    benefits from the omni-dromenon metasystem through structured participation.
+  personas:
+    - id: "contributor"
+      description: "Community members who contribute code, docs, or ideas."
+    - id: "moderator"
+      description: "Community health monitors and facilitators."
+    - id: "salon-participant"
+      description: "Attendees of community gatherings and discussions."
+
+architecture:
+  style: "decentralized-governance"
+  tech_stack:
+    platform: "Discord + GitHub Discussions"
+    governance: "Snapshot (off-chain voting)"
+    documentation: "GitBook"
+    moderation: "Custom agents"
+
+coding_standards:
+  language: "TypeScript"
+  style:
+    formatter: "prettier"
+    linter: "eslint"
+  community_standards:
+    code_of_conduct: true
+    contribution_license: "Apache-2.0"
+    rfc_process: true
+
+growth_objectives:
+  roadmap_epics:
+    - id: "governance-v1"
+      title: "Community Governance Launch"
+      description: "Initial governance framework with voting and proposals."
+      modules: ["governance-framework"]
+    - id: "salon-series"
+      title: "Salon Series"
+      description: "Regular community gatherings for discussion and creation."
+      modules: ["salon-protocols"]
+    - id: "contributor-onboarding"
+      title: "Contributor Onboarding"
+      description: "Streamlined path from newcomer to active contributor."
+      modules: ["contribution-guides"]
+
+dreamcatcher:
+  enabled: true
+  schedule: "on-demand"
+  budget:
+    max_loops: 15
+    max_files_touched: 5
+  providers:
+    architect: "claude-3-5-sonnet"
+    builder: "gpt-4o"
+    critic: "gemini-1.5-pro"
+
+automation_contract:
+  ai_access:
+    read_paths: ["contribution-guides/**", "salon-protocols/**", "reading-lists/**"]
+    write_paths: ["contribution-guides/**", "reading-lists/**"]
+    disallowed_writes: ["seed.yaml", "governance-framework/**"]  # Governance requires human approval
+  gates:
+    inbound:
+      - name: "community-approval"
+        required: true
+        description: "All public-facing changes require RFC process."
+    outbound:
+      - name: "quality-threshold"
+        required: true
+        description: "Success stories must meet quality metrics."
+
+moderation:
+  agents:
+    - id: "health-monitor"
+      description: "Monitors community sentiment and flags issues."
+    - id: "onboarding-guide"
+      description: "Assists new contributors through initial steps."
+
+knowledge_graph:
+  enabled: true
+  db_path: "/Users/4jp/.metasystem/metastore.db"
+  auto_index: true
+  integration:
+    query_before_work: true
+    log_decisions: true
+    log_file_changes: true
+    cross_project_learning: true
