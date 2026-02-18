@@ -79,11 +79,14 @@ def _should_skip(path: Path, root: Path) -> bool:
     return any(part in SKIP_DIRECTORIES for part in rel_parts)
 
 
-def discover_documents(root: Path) -> list[Path]:
+def discover_documents(root: Path, exclude_paths: set[Path] | None = None) -> list[Path]:
     """Discover supported document files under root, sorted deterministically."""
+    excluded = {p.expanduser().resolve() for p in (exclude_paths or set())}
     files: list[Path] = []
     for path in root.rglob("*"):
         if not path.is_file():
+            continue
+        if path.resolve() in excluded:
             continue
         if _should_skip(path, root):
             continue
@@ -217,12 +220,17 @@ class CorpusIngestor:
             text=text,
         )
 
-    def ingest(self, root: Path, snapshot_name: str) -> CorpusSnapshot:
+    def ingest(
+        self,
+        root: Path,
+        snapshot_name: str,
+        exclude_paths: set[Path] | None = None,
+    ) -> CorpusSnapshot:
         root = root.expanduser().resolve()
         if not root.exists() or not root.is_dir():
             raise ValueError(f"Invalid root directory: {root}")
 
-        paths = discover_documents(root)
+        paths = discover_documents(root, exclude_paths=exclude_paths)
         candidates = [self._build_candidate(root, p) for p in paths]
 
         by_hash: dict[str, list[CandidateDocument]] = {}

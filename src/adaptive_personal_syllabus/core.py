@@ -9,6 +9,7 @@ import click
 
 from . import __version__
 from .corpus import CorpusIngestor
+from .docs_audit import DocsAuditService, render_audit_markdown, write_report
 from .generator import SyllabusGenerator
 from .hooks import HookRunner
 from .ledger import Ledger
@@ -405,6 +406,76 @@ def chamber_run(hook_name: str, dry_run: bool, context: str, plan_id: int | None
         "output": result.output,
     }
     click.echo(json.dumps(payload, indent=2))
+
+
+@cli.group("docs")
+def docs_group() -> None:
+    """Docs ingestion + suggestion coverage audits."""
+
+
+@docs_group.command("audit")
+@click.option(
+    "--root",
+    required=True,
+    type=click.Path(path_type=Path, exists=True, file_okay=False, dir_okay=True),
+    help="Root docs directory to audit.",
+)
+@click.option("--snapshot", default="docs-audit", show_default=True, help="Snapshot name.")
+@click.option("--format", "fmt", type=click.Choice(["json", "md"]), default="json")
+@click.option(
+    "--write-json",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="Optional output path for JSON report.",
+)
+@click.option(
+    "--write-md",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="Optional output path for Markdown roadmap.",
+)
+@click.option(
+    "--db-path",
+    type=click.Path(path_type=Path),
+    default=str(DEFAULT_DB_PATH),
+    show_default=True,
+)
+def docs_audit(
+    root: Path,
+    snapshot: str,
+    fmt: str,
+    write_json: Path | None,
+    write_md: Path | None,
+    db_path: Path,
+) -> None:
+    """Audit all docs files and map every suggestion/use-case to planned or implemented status."""
+    root = root.expanduser().resolve()
+    excluded_paths: set[Path] = set()
+    for output_path in (write_json, write_md):
+        if output_path is None:
+            continue
+        resolved = output_path.expanduser().resolve()
+        try:
+            resolved.relative_to(root)
+        except ValueError:
+            continue
+        excluded_paths.add(resolved)
+
+    storage = Storage(db_path)
+    chain = Ledger(storage)
+    auditor = DocsAuditService(storage=storage, ledger=chain)
+    report = auditor.audit(root=root, snapshot_name=snapshot, exclude_paths=excluded_paths)
+    markdown = render_audit_markdown(report)
+
+    if write_json is not None:
+        write_report(write_json, report)
+    if write_md is not None:
+        write_report(write_md, markdown)
+
+    if fmt == "md":
+        click.echo(markdown)
+    else:
+        click.echo(json.dumps(report, indent=2))
 
 
 def main() -> None:
