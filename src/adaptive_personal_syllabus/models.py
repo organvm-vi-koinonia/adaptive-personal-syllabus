@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any
 
 
 class DifficultyLevel(Enum):
@@ -68,3 +69,79 @@ class LearningPath:
             if m.module_id not in self.learner.completed_modules:
                 return m
         return None
+
+
+@dataclass
+class DocumentRecord:
+    """Canonical document record persisted during corpus ingestion."""
+
+    canonical_path: str
+    rel_path: str
+    sha256: str
+    bytes: int
+    lines: int
+    mime: str
+    family: str
+    ingested_at: str
+
+
+@dataclass
+class DocumentChunk:
+    """Heading-aware text chunk for retrieval and explainability."""
+
+    document_id: int
+    chunk_index: int
+    heading_path: str
+    text: str
+    token_estimate: int
+
+
+@dataclass
+class LedgerEvent:
+    """Append-only ledger event."""
+
+    prev_hash: str
+    event_hash: str
+    event_type: str
+    payload: dict[str, Any]
+    created_at: str
+
+
+@dataclass
+class CorpusSnapshot:
+    """Summary for a corpus ingestion snapshot."""
+
+    snapshot_name: str
+    root_path: str
+    doc_count: int
+    unique_payload_count: int
+    created_at: str
+
+
+@dataclass
+class ChamberHookSpec:
+    """Metadata for a chamber hook registration."""
+
+    name: str
+    description: str
+    stage: str
+    tags: list[str] = field(default_factory=list)
+
+
+@dataclass
+class CharacterNodeSpec:
+    """Metadata for a character-node extension point."""
+
+    name: str
+    role: str
+    focus_area: str
+
+
+@dataclass
+class PersonalizationRule:
+    """Rule controlling profile-driven adaptation behavior."""
+
+    rule_id: str
+    description: str
+    profile_fields: list[str] = field(default_factory=list)
+    module_filters: list[str] = field(default_factory=list)

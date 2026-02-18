@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
-
-import pytest
+from unittest.mock import patch
 
 from adaptive_personal_syllabus.db_generator import DatabaseSyllabusGenerator
 from adaptive_personal_syllabus.models import DifficultyLevel, LearnerProfile
@@ -13,21 +11,21 @@ from adaptive_personal_syllabus.models import DifficultyLevel, LearnerProfile
 def test_db_generator_url_passthrough():
     """Non-postgresql URLs are left unchanged (for testing)."""
     with patch("adaptive_personal_syllabus.db_generator.create_engine") as mock_ce:
-        gen = DatabaseSyllabusGenerator("sqlite:///test.db")
+        DatabaseSyllabusGenerator("sqlite:///test.db")
         mock_ce.assert_called_once_with("sqlite:///test.db")
 
 
 def test_db_generator_url_normalization():
     """postgresql:// is rewritten to postgresql+psycopg:// for sync driver."""
     with patch("adaptive_personal_syllabus.db_generator.create_engine") as mock_ce:
-        gen = DatabaseSyllabusGenerator("postgresql://user:pass@host/db")
+        DatabaseSyllabusGenerator("postgresql://user:pass@host/db")
         mock_ce.assert_called_once_with("postgresql+psycopg://user:pass@host/db")
 
 
 def test_db_generator_url_already_psycopg():
     """URLs with +psycopg are not double-rewritten."""
     with patch("adaptive_personal_syllabus.db_generator.create_engine") as mock_ce:
-        gen = DatabaseSyllabusGenerator("postgresql+psycopg://user:pass@host/db")
+        DatabaseSyllabusGenerator("postgresql+psycopg://user:pass@host/db")
         mock_ce.assert_called_once_with("postgresql+psycopg://user:pass@host/db")
 
 

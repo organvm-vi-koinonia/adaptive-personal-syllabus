@@ -307,6 +307,39 @@ aps personalize course "MIT 6.S081" --url https://pdos.csail.mit.edu/6.S081/
 aps personalize diff output/personalized/think-grow-rich.md
 ```
 
+### Implemented Local-First CLI (Current)
+
+The currently implemented CLI command is `syllabus` (from `pyproject.toml`), with a local-first SQLite runtime at `~/.adaptive-syllabus/adaptive_syllabus.db`.
+
+```bash
+# 1) Ingest repository corpus with deterministic deduplication
+syllabus corpus ingest --root . --snapshot local-repo
+
+# 2) Inspect stable JSON corpus stats schema
+syllabus corpus stats
+
+# 3) Initialize learner profile
+syllabus profile init \
+  --name "Jane Doe" \
+  --organs I,V \
+  --level beginner \
+  --goals "build recursive systems,ship portfolio artifacts" \
+  --context '{"industry":"developer tools","weekly_hours":10}'
+
+# 4) Generate plan from profile + ingested corpus evidence
+syllabus plan generate --profile ~/.adaptive-syllabus/profile.json --format json
+
+# 5) Run default no-op chamber hook (AAW extension point)
+syllabus chamber run --hook input_ritual --dry-run
+
+# 6) Verify append-only ledger integrity
+syllabus ledger verify
+```
+
+Supported corpus extensions in MVP1:
+
+`md, txt, yaml, yml, json, toml, csv, tsv, rst, pdf, docx`
+
 ---
 
 ## 6. Working Examples

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Local-first SQLite storage layer at `~/.adaptive-syllabus/adaptive_syllabus.db` with schema for documents, aliases, chunks, profiles, plans, hook runs, ledger events, and snapshots
+- Corpus ingestion service with deterministic deduplication, canonical/alias tracking, and heading-aware chunking
+- Append-only hash-chain ledger service with integrity verification (`syllabus ledger verify`)
+- Profile-aware planning service that merges learner profile + corpus evidence + module generation into a stable JSON plan schema
+- Chamber hook interface (`ChamberHook`) and default no-op AAW/character-node registry
+- New CLI command groups:
+  - `syllabus corpus ingest --root <path> --snapshot <name>`
+  - `syllabus corpus stats`
+  - `syllabus ledger verify`
+  - `syllabus profile init --name ... --goals ... --context ...`
+  - `syllabus plan generate --profile <path> --format text|json|md`
+  - `syllabus chamber run --hook <name> --dry-run`
+- New test coverage for corpus ingestion, ledger verification/tamper detection, deterministic planning, and new CLI flows
+
+### Changed
+- Expanded domain models with new dataclasses: `DocumentRecord`, `DocumentChunk`, `LedgerEvent`, `CorpusSnapshot`, `ChamberHookSpec`, `CharacterNodeSpec`, and `PersonalizationRule`
+
 ## [0.4.0] - 2026-02-17
 
 ### Added
