@@ -4,19 +4,21 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adaptive-personal-syllabus"
-version = "0.2.0"
+version = "0.5.0"
 description = "Personalized learning path generator for the organvm eight-organ system"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 dependencies = [
     "click>=8.0",
+    "PyYAML>=6.0",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.1.0", "mypy>=1.0"]
+dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.1.0", "mypy>=1.0", "types-PyYAML>=6.0.12"]
 
 [project.scripts]
 syllabus = "adaptive_personal_syllabus.core:cli"
+aps = "adaptive_personal_syllabus.core:cli"
 
 [tool.ruff]
 target-version = "py311"

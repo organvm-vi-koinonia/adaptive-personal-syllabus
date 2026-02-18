@@ -54,7 +54,30 @@ class Planner:
         return data
 
     @staticmethod
-    def _deterministic_plan_uid(profile_data: dict[str, Any], modules: list[dict[str, Any]]) -> str:
+    def _hash_personalization_rules(rules: list[PersonalizationRule]) -> str:
+        blob = json.dumps(
+            [
+                {
+                    "rule_id": r.rule_id,
+                    "description": r.description,
+                    "profile_fields": r.profile_fields,
+                    "module_filters": r.module_filters,
+                }
+                for r in rules
+            ],
+            sort_keys=True,
+        )
+        return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+
+    @staticmethod
+    def _deterministic_plan_uid(
+        profile_data: dict[str, Any],
+        modules: list[dict[str, Any]],
+        *,
+        snapshot_id: int,
+        evidence_sha256: list[str],
+        personalization_rules_hash: str,
+    ) -> str:
         blob = json.dumps(
             {
                 "profile": {
@@ -72,6 +95,9 @@ class Planner:
                     }
                     for m in modules
                 ],
+                "snapshot_id": snapshot_id,
+                "evidence_sha256": evidence_sha256,
+                "personalization_rules_hash": personalization_rules_hash,
             },
             sort_keys=True,
         )
@@ -100,12 +126,19 @@ class Planner:
         generator = SyllabusGenerator(seed_dir=self.seed_dir)
         path = generator.generate(learner)
 
-        evidence_docs = self.storage.list_documents(limit=5)
+        snapshot = self.storage.latest_snapshot()
+        if snapshot is None:
+            raise ValueError("No corpus snapshot found. Run 'syllabus corpus ingest' first.")
+        snapshot_id = int(snapshot["id"])
+
+        evidence_docs = self.storage.list_documents(snapshot_id=snapshot_id, limit=5)
+        evidence_sha256 = self.storage.list_snapshot_sha256(snapshot_id=snapshot_id)
         evidence_refs = [
             {
                 "document_id": int(d["id"]),
                 "canonical_path": str(d["canonical_path"]),
                 "rel_path": str(d["rel_path"]),
+                "sha256": str(d["sha256"]),
             }
             for d in evidence_docs
         ]
@@ -127,7 +160,14 @@ class Planner:
                 }
             )
 
-        plan_uid = self._deterministic_plan_uid(profile_data, module_rows)
+        personalization_rules_hash = self._hash_personalization_rules(DEFAULT_PERSONALIZATION_RULES)
+        plan_uid = self._deterministic_plan_uid(
+            profile_data,
+            module_rows,
+            snapshot_id=snapshot_id,
+            evidence_sha256=evidence_sha256,
+            personalization_rules_hash=personalization_rules_hash,
+        )
 
         profile_id = self.storage.insert_profile(
             name=learner.name,
@@ -140,6 +180,7 @@ class Planner:
             title=f"Learning Plan {plan_uid}",
             total_hours=path.total_hours,
             module_count=len(module_rows),
+            snapshot_id=snapshot_id,
         )
 
         for row in module_rows:
@@ -155,8 +196,6 @@ class Planner:
                 estimated_hours=float(row["estimated_hours"]),
             )
 
-        snapshot = self.storage.latest_snapshot()
-
         plan = {
             "schema_version": "1.0",
             "plan_id": plan_uid,
@@ -171,6 +210,11 @@ class Planner:
                 "completed_modules": learner.completed_modules,
             },
             "snapshot": snapshot,
+            "determinism_inputs": {
+                "snapshot_id": snapshot_id,
+                "evidence_sha256": evidence_sha256,
+                "personalization_rules_hash": personalization_rules_hash,
+            },
             "personalization_rules": [
                 {
                     "rule_id": r.rule_id,
@@ -193,8 +237,10 @@ class Planner:
                 "plan_id": plan_uid,
                 "db_plan_id": db_plan_id,
                 "profile_id": profile_id,
+                "snapshot_id": snapshot_id,
                 "module_count": len(module_rows),
                 "total_hours": path.total_hours,
+                "evidence_hash_count": len(evidence_sha256),
             },
         )
 

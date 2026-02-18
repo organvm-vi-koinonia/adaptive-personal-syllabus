@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-02-18
+
+### Added
+- Snapshot-scoped corpus storage model with persistent multi-snapshot history (`documents.snapshot_id`)
+- Snapshot selectors for `syllabus corpus stats` (`--snapshot-id`, `--snapshot-name`)
+- Determinism inputs in plan JSON output (`snapshot_id`, evidence hash set, personalization-rules hash)
+- `aps` CLI alias to preserve compatibility with existing command examples
+- YAML validation in corpus ingest (`yaml.safe_load`) with deterministic malformed-file errors
+- Additional tests for multi-snapshot ingest lifecycle, snapshot-filtered stats, malformed YAML, and snapshot-sensitive plan IDs
+
+### Changed
+- Corpus ingest is now atomic and non-destructive; prior snapshots remain queryable
+- Ingest write-path now batches inserts in a single transaction per run (documents, aliases, chunks, ledger event)
+- Plan persistence now records `snapshot_id` in `plans`
+- CI workflow hardened to enforce lint, mypy, pytest, and CLI smoke checks
+- README updated to separate roadmap-only `aps` flows from implemented `syllabus` flows and corrected CI workflow references
+- Package version advanced to `0.5.0`
+
+### Fixed
+- Provenance reproducibility gap caused by corpus reset behavior between ingests
+- Command and workflow documentation drift (`ci-python.yml` references, contradictory badges)
+
+## [0.4.1] - 2026-02-18
+
 ### Added
 - Local-first SQLite storage layer at `~/.adaptive-syllabus/adaptive_syllabus.db` with schema for documents, aliases, chunks, profiles, plans, hook runs, ledger events, and snapshots
 - Corpus ingestion service with deterministic deduplication, canonical/alias tracking, and heading-aware chunking
@@ -67,7 +91,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Core project structure and documentation
 - README with portfolio-quality documentation
 
-[Unreleased]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.4.0...v0.5.0
+[0.4.1]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.4.0...v0.4.1
+[0.4.0]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/releases/tag/v0.1.0

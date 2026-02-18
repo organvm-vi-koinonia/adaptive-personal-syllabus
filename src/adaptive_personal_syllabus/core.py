@@ -7,6 +7,7 @@ from typing import Any
 
 import click
 
+from . import __version__
 from .corpus import CorpusIngestor
 from .generator import SyllabusGenerator
 from .hooks import HookRunner
@@ -91,7 +92,7 @@ def generate(organs: str, level: str, name: str, fmt: str) -> None:
 @cli.command()
 def version() -> None:
     """Show version."""
-    click.echo("adaptive-personal-syllabus v0.2.0")
+    click.echo(f"adaptive-personal-syllabus v{__version__}")
 
 
 @cli.group()
@@ -125,6 +126,7 @@ def corpus_ingest(root: Path, snapshot: str, db_path: Path) -> None:
             {
                 "schema_version": "1.0",
                 "snapshot": {
+                    "snapshot_id": snap.snapshot_id,
                     "snapshot_name": snap.snapshot_name,
                     "root_path": snap.root_path,
                     "doc_count": snap.doc_count,
@@ -138,16 +140,30 @@ def corpus_ingest(root: Path, snapshot: str, db_path: Path) -> None:
 
 
 @corpus.command("stats")
+@click.option("--snapshot-id", type=int, default=None, help="Optional snapshot id selector.")
+@click.option(
+    "--snapshot-name",
+    default="latest",
+    show_default=True,
+    help="Optional snapshot name selector (latest by default).",
+)
 @click.option(
     "--db-path",
     type=click.Path(path_type=Path),
     default=str(DEFAULT_DB_PATH),
     show_default=True,
 )
-def corpus_stats(db_path: Path) -> None:
+def corpus_stats(snapshot_id: int | None, snapshot_name: str, db_path: Path) -> None:
     """Show stable JSON schema for corpus statistics."""
+    if snapshot_id is not None and snapshot_name != "latest":
+        raise click.ClickException("Use either --snapshot-id or --snapshot-name, not both")
     storage = Storage(db_path)
-    click.echo(json.dumps(storage.corpus_stats(), indent=2))
+    click.echo(
+        json.dumps(
+            storage.corpus_stats(snapshot_id=snapshot_id, snapshot_name=snapshot_name),
+            indent=2,
+        )
+    )
 
 
 @cli.group("ledger")
@@ -322,7 +338,10 @@ def plan_generate(profile_path: Path, fmt: str, db_path: Path, seed_dir: Path | 
     storage = Storage(db_path)
     chain = Ledger(storage)
     planner = Planner(storage=storage, ledger=chain, seed_dir=seed_dir)
-    plan_doc = planner.generate(profile_path=profile_path)
+    try:
+        plan_doc = planner.generate(profile_path=profile_path)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
 
     chain.append(
         "plan.export",

@@ -7,13 +7,6 @@
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus)
 [![Python](https://img.shields.io/badge/lang-Python-informational)](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus)
 
-
-![CI](https://github.com/organvm-vi-koinonia/adaptive-personal-syllabus/actions/workflows/ci-python.yml/badge.svg)
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Organ VI](https://img.shields.io/badge/ORGAN--VI-Community-purple)
-![Status: DESIGN_ONLY](https://img.shields.io/badge/Status-DESIGN__ONLY-lightgrey)
-![Language: Python](https://img.shields.io/badge/Language-Python-3776AB?logo=python&logoColor=white)
-
 **An AI-personalized education system that transforms generic curricula into context-aware, multi-artifact learning journeys spanning OS development, algorithms, DSLs, kernel engineering, UI/sound/video, and AR/VR -- generating eight parallel professional outputs per module through a "Wings" multi-artifact framework.**
 
 ---
@@ -171,11 +164,11 @@ source .venv/bin/activate
 # Install dependencies
 pip install -e ".[dev]"
 
-# Initialize your learner profile
-aps init-profile
+# Initialize a learner profile (local JSON file)
+syllabus profile init --name "Jane Doe" --goals "build recursive systems" --context '{}'
 
 # Verify installation
-aps doctor
+syllabus version
 ```
 
 ### Configuration
@@ -204,37 +197,39 @@ personalization:
 
 ### Learner Profile Initialization
 
-The `aps init-profile` command walks through an interactive questionnaire that populates `~/.adaptive-syllabus/profile.yaml`:
+Use `syllabus profile init` to generate `~/.adaptive-syllabus/profile.json`:
 
-```yaml
-# ~/.adaptive-syllabus/profile.yaml (generated)
-learner:
-  name: "Jane Doe"
-  role: "Senior Software Engineer"
-  organization: "Acme Corp"
-  goals:
-    - "Build a minimal OS for embedded IoT devices"
-    - "Publish a conference paper on formal verification"
-    - "Launch a SaaS product for developer tooling"
-  current_skills:
-    python: advanced
-    systems_programming: intermediate
-    formal_methods: beginner
-    ar_vr: none
-  metrics:
-    weekly_study_hours: 10
-    target_completion_months: 6
-  context:
-    industry: "developer tools"
-    team_size: 3
-    funding_stage: "pre-seed"
+```bash
+syllabus profile init \
+  --name "Jane Doe" \
+  --organs I,V \
+  --level beginner \
+  --goals "build recursive systems,ship portfolio artifacts" \
+  --context '{"industry":"developer tools","weekly_hours":10}'
+```
+
+```json
+{
+  "schema_version": "1.0",
+  "name": "Jane Doe",
+  "organs_of_interest": ["I", "V"],
+  "level": "beginner",
+  "goals": ["build recursive systems", "ship portfolio artifacts"],
+  "context": {
+    "industry": "developer tools",
+    "weekly_hours": 10
+  },
+  "completed_modules": []
+}
 ```
 
 ---
 
 ## 5. Usage
 
-### Module Progression
+### Module Progression (Roadmap, Not Yet Implemented CLI)
+
+The `aps module|wings|personalize` commands shown in this section are design targets and are not part of the current shipped CLI. Use the implemented `syllabus` command group shown in **Implemented Local-First CLI (Current)**.
 
 Work through modules sequentially. Each module must be completed before the next one unlocks (though the system allows preview access for planning purposes):
 
@@ -258,7 +253,7 @@ aps wings generate 0
 aps progress
 ```
 
-### Artifact Generation
+### Artifact Generation (Roadmap, Not Yet Implemented CLI)
 
 The Wings generation command produces all eight artifacts for a given module:
 
@@ -292,7 +287,7 @@ output/
     metadata.json          # Provenance and generation context
 ```
 
-### Content Personalization
+### Content Personalization (Roadmap, Not Yet Implemented CLI)
 
 Process external books and courses through the personalization engine:
 
@@ -309,7 +304,7 @@ aps personalize diff output/personalized/think-grow-rich.md
 
 ### Implemented Local-First CLI (Current)
 
-The currently implemented CLI command is `syllabus` (from `pyproject.toml`), with a local-first SQLite runtime at `~/.adaptive-syllabus/adaptive_syllabus.db`.
+The currently implemented CLI command is `syllabus` (from `pyproject.toml`), with a local-first SQLite runtime at `~/.adaptive-syllabus/adaptive_syllabus.db`. A compatibility alias `aps` is also provided and points to the same CLI entrypoint.
 
 ```bash
 # 1) Ingest repository corpus with deterministic deduplication
@@ -317,6 +312,7 @@ syllabus corpus ingest --root . --snapshot local-repo
 
 # 2) Inspect stable JSON corpus stats schema
 syllabus corpus stats
+syllabus corpus stats --snapshot-name latest
 
 # 3) Initialize learner profile
 syllabus profile init \
@@ -475,7 +471,7 @@ Each module's Wings artifacts are validated against quality criteria before bein
 
 ### Continuous Integration
 
-The CI pipeline (`.github/workflows/ci-python.yml`) runs on every push:
+The CI pipeline (`.github/workflows/ci.yml`) runs on every push:
 
 1. Lint and type-check (`ruff`, `mypy`)
 2. Unit tests (`pytest`)

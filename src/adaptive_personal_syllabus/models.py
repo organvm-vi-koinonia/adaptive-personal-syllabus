@@ -75,6 +75,7 @@ class LearningPath:
 class DocumentRecord:
     """Canonical document record persisted during corpus ingestion."""
 
+    snapshot_id: int
     canonical_path: str
     rel_path: str
     sha256: str
@@ -111,6 +112,7 @@ class LedgerEvent:
 class CorpusSnapshot:
     """Summary for a corpus ingestion snapshot."""
 
+    snapshot_id: int
     snapshot_name: str
     root_path: str
     doc_count: int

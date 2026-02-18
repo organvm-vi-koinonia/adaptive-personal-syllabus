@@ -86,6 +86,33 @@ def test_planner_generate_is_deterministic_for_same_profile_and_snapshot(tmp_pat
     assert [m["module_id"] for m in plan_one["modules"]] == [
         m["module_id"] for m in plan_two["modules"]
     ]
+    assert plan_one["determinism_inputs"]["snapshot_id"] == plan_one["snapshot"]["id"]
+    assert plan_one["determinism_inputs"]["evidence_sha256"]
     assert plan_one["modules"][0]["artifact_descriptors"]
     assert len(plan_one["modules"][0]["artifact_descriptors"]) == 8
     assert plan_one["modules"][0]["evidence"]
+
+
+def test_planner_plan_id_changes_when_snapshot_changes(tmp_path: Path) -> None:
+    db_path = tmp_path / "planner.db"
+    storage = Storage(db_path)
+    ledger = Ledger(storage)
+    planner = Planner(storage=storage, ledger=ledger, seed_dir=_seed_dir(tmp_path))
+    profile_path = _profile(tmp_path)
+
+    corpus_root_a = tmp_path / "corpus-a"
+    corpus_root_a.mkdir()
+    (corpus_root_a / "doc.md").write_text("# Heading\nBody A", encoding="utf-8")
+    snap_a = CorpusIngestor(storage, ledger).ingest(corpus_root_a, "snapshot-a")
+    plan_a = planner.generate(profile_path)
+
+    corpus_root_b = tmp_path / "corpus-b"
+    corpus_root_b.mkdir()
+    (corpus_root_b / "doc.md").write_text("# Heading\nBody B", encoding="utf-8")
+    snap_b = CorpusIngestor(storage, ledger).ingest(corpus_root_b, "snapshot-b")
+    plan_b = planner.generate(profile_path)
+
+    assert snap_a.snapshot_id != snap_b.snapshot_id
+    assert plan_a["snapshot"]["id"] == snap_a.snapshot_id
+    assert plan_b["snapshot"]["id"] == snap_b.snapshot_id
+    assert plan_a["plan_id"] != plan_b["plan_id"]

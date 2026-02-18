@@ -9,6 +9,9 @@ import re
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
+
+import yaml
+
 from .ledger import Ledger
 from .models import CorpusSnapshot
 from .storage import Storage, utcnow_iso
@@ -93,7 +96,7 @@ def _decode_text(data: bytes, path: Path) -> str:
     try:
         return data.decode("utf-8")
     except UnicodeDecodeError as exc:
-        raise ValueError(f"Unsupported encoding for {path}. Expected UTF-8.") from exc
+        raise ValueError(f"ERR_ENCODING_UNSUPPORTED: Unsupported encoding for {path}. Expected UTF-8.") from exc
 
 
 def _validate_content(ext: str, text: str, path: Path) -> None:
@@ -101,18 +104,23 @@ def _validate_content(ext: str, text: str, path: Path) -> None:
         try:
             json.loads(text)
         except json.JSONDecodeError as exc:
-            raise ValueError(f"Malformed JSON file: {path}") from exc
+            raise ValueError(f"ERR_MALFORMED_JSON: Malformed JSON file: {path}") from exc
+    elif ext in {".yaml", ".yml"}:
+        try:
+            yaml.safe_load(text)
+        except yaml.YAMLError as exc:
+            raise ValueError(f"ERR_MALFORMED_YAML: Malformed YAML file: {path}") from exc
     elif ext == ".toml":
         try:
             tomllib.loads(text)
         except tomllib.TOMLDecodeError as exc:
-            raise ValueError(f"Malformed TOML file: {path}") from exc
+            raise ValueError(f"ERR_MALFORMED_TOML: Malformed TOML file: {path}") from exc
     elif ext in {".csv", ".tsv"}:
         delimiter = "," if ext == ".csv" else "\t"
         reader = csv.reader(text.splitlines(), delimiter=delimiter)
-        # Consume once to fail-fast on structural CSV errors.
+        # Consume all rows to fail-fast on malformed delimiters/quoting.
         for _ in reader:
-            break
+            pass
 
 
 def _sha256(data: bytes) -> str:
@@ -221,72 +229,81 @@ class CorpusIngestor:
         for c in candidates:
             by_hash.setdefault(c.sha256, []).append(c)
 
-        self.storage.reset_corpus()
-
         canonical_docs = 0
         alias_count = 0
         chunk_count = 0
         ingested_at = utcnow_iso()
-
-        for sha in sorted(by_hash):
-            group = sorted(by_hash[sha], key=lambda c: c.rel_path)
-            canonical = group[0]
-            canonical_docs += 1
-            doc_id = self.storage.insert_document(
-                canonical_path=str(canonical.path),
-                rel_path=canonical.rel_path,
-                sha256=canonical.sha256,
-                size_bytes=canonical.size_bytes,
-                lines=canonical.lines,
-                mime=canonical.mime,
-                family=canonical.family,
-                ingested_at=ingested_at,
+        with self.storage.connection() as conn:
+            snapshot_id = self.storage.insert_snapshot(
+                snapshot_name=snapshot_name,
+                root_path=str(root),
+                doc_count=len(candidates),
+                unique_payload_count=len(by_hash),
+                conn=conn,
             )
 
-            if canonical.text is not None:
-                for idx, (heading_path, chunk_text) in enumerate(heading_aware_chunks(canonical.text)):
-                    token_estimate = len(chunk_text.split())
-                    self.storage.insert_chunk(
+            for sha in sorted(by_hash):
+                group = sorted(by_hash[sha], key=lambda c: c.rel_path)
+                canonical = group[0]
+                canonical_docs += 1
+                doc_id = self.storage.insert_document(
+                    snapshot_id=snapshot_id,
+                    canonical_path=str(canonical.path),
+                    rel_path=canonical.rel_path,
+                    sha256=canonical.sha256,
+                    size_bytes=canonical.size_bytes,
+                    lines=canonical.lines,
+                    mime=canonical.mime,
+                    family=canonical.family,
+                    ingested_at=ingested_at,
+                    conn=conn,
+                )
+
+                if canonical.text is not None:
+                    chunks_to_insert: list[tuple[int, str, str, int]] = []
+                    for idx, (heading_path, chunk_text) in enumerate(
+                        heading_aware_chunks(canonical.text)
+                    ):
+                        token_estimate = len(chunk_text.split())
+                        chunks_to_insert.append((idx, heading_path, chunk_text, token_estimate))
+                    chunk_count += self.storage.insert_chunks(
                         document_id=doc_id,
-                        chunk_index=idx,
-                        heading_path=heading_path,
-                        text=chunk_text,
-                        token_estimate=token_estimate,
+                        chunks=chunks_to_insert,
+                        conn=conn,
                     )
-                    chunk_count += 1
 
-            for alias in group[1:]:
-                self.storage.insert_alias(document_id=doc_id, alias_path=str(alias.path))
-                alias_count += 1
+                alias_paths = [str(alias.path) for alias in group[1:]]
+                alias_count += self.storage.insert_aliases(
+                    document_id=doc_id,
+                    alias_paths=alias_paths,
+                    conn=conn,
+                )
 
-        self.storage.insert_snapshot(
-            snapshot_name=snapshot_name,
-            root_path=str(root),
-            doc_count=len(candidates),
-            unique_payload_count=len(by_hash),
-        )
-        latest = self.storage.latest_snapshot()
-        if latest is None:
-            raise RuntimeError("Snapshot write failed")
+            if self.ledger is not None:
+                self.ledger.append(
+                    "corpus.ingest",
+                    {
+                        "snapshot_id": snapshot_id,
+                        "snapshot_name": snapshot_name,
+                        "root_path": str(root),
+                        "doc_count": len(candidates),
+                        "unique_payload_count": len(by_hash),
+                        "canonical_document_count": canonical_docs,
+                        "alias_count": alias_count,
+                        "chunk_count": chunk_count,
+                    },
+                    conn=conn,
+                )
 
-        if self.ledger is not None:
-            self.ledger.append(
-                "corpus.ingest",
-                {
-                    "snapshot_name": snapshot_name,
-                    "root_path": str(root),
-                    "doc_count": len(candidates),
-                    "unique_payload_count": len(by_hash),
-                    "canonical_document_count": canonical_docs,
-                    "alias_count": alias_count,
-                    "chunk_count": chunk_count,
-                },
-            )
+            snapshot = self.storage.get_snapshot(snapshot_id, conn=conn)
+            if snapshot is None:
+                raise RuntimeError("Snapshot write failed")
 
         return CorpusSnapshot(
-            snapshot_name=str(latest["snapshot_name"]),
-            root_path=str(latest["root_path"]),
-            doc_count=int(latest["doc_count"]),
-            unique_payload_count=int(latest["unique_payload_count"]),
-            created_at=str(latest["created_at"]),
+            snapshot_id=int(snapshot["id"]),
+            snapshot_name=str(snapshot["snapshot_name"]),
+            root_path=str(snapshot["root_path"]),
+            doc_count=int(snapshot["doc_count"]),
+            unique_payload_count=int(snapshot["unique_payload_count"]),
+            created_at=str(snapshot["created_at"]),
         )

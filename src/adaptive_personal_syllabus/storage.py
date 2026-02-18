@@ -6,7 +6,7 @@ import sqlite3
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Iterator, Sequence
 
 
 DEFAULT_DATA_DIR = Path.home() / ".adaptive-syllabus"
@@ -38,13 +38,98 @@ class Storage:
         finally:
             conn.close()
 
+    @staticmethod
+    def _table_columns(conn: sqlite3.Connection, table_name: str) -> set[str]:
+        rows = conn.execute(f"PRAGMA table_info({table_name})").fetchall()
+        return {str(row["name"]) for row in rows}
+
+    @staticmethod
+    def _cursor_lastrowid(cursor: sqlite3.Cursor) -> int:
+        if cursor.lastrowid is None:
+            raise RuntimeError("SQLite did not return lastrowid for insert operation")
+        return int(cursor.lastrowid)
+
+    def _backfill_snapshot_bindings(self, conn: sqlite3.Connection) -> None:
+        unbound_docs = int(
+            conn.execute("SELECT COUNT(*) FROM documents WHERE snapshot_id IS NULL").fetchone()[0]
+        )
+        unbound_plans = int(
+            conn.execute("SELECT COUNT(*) FROM plans WHERE snapshot_id IS NULL").fetchone()[0]
+        )
+        if unbound_docs == 0 and unbound_plans == 0:
+            return
+
+        latest_snapshot = conn.execute("SELECT id FROM snapshots ORDER BY id DESC LIMIT 1").fetchone()
+        if latest_snapshot:
+            snapshot_id = int(latest_snapshot["id"])
+        else:
+            doc_count = int(conn.execute("SELECT COUNT(*) FROM documents").fetchone()[0])
+            unique_payload_count = int(
+                conn.execute("SELECT COUNT(DISTINCT sha256) FROM documents").fetchone()[0]
+            )
+            cur = conn.execute(
+                """
+                INSERT INTO snapshots(snapshot_name, root_path, doc_count, unique_payload_count, created_at)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                ("legacy-migration", "unknown", doc_count, unique_payload_count, utcnow_iso()),
+            )
+            snapshot_id = self._cursor_lastrowid(cur)
+
+        if unbound_docs:
+            conn.execute(
+                "UPDATE documents SET snapshot_id = ? WHERE snapshot_id IS NULL",
+                (snapshot_id,),
+            )
+        if unbound_plans:
+            conn.execute(
+                "UPDATE plans SET snapshot_id = ? WHERE snapshot_id IS NULL",
+                (snapshot_id,),
+            )
+
+    def _run_migrations(self, conn: sqlite3.Connection) -> None:
+        document_columns = self._table_columns(conn, "documents")
+        if "snapshot_id" not in document_columns:
+            conn.execute("ALTER TABLE documents ADD COLUMN snapshot_id INTEGER")
+
+        plan_columns = self._table_columns(conn, "plans")
+        if "snapshot_id" not in plan_columns:
+            conn.execute("ALTER TABLE plans ADD COLUMN snapshot_id INTEGER")
+
+        # Remove old global uniqueness and replace with snapshot-scoped uniqueness.
+        conn.execute("DROP INDEX IF EXISTS idx_documents_canonical_path")
+        conn.execute(
+            """
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_documents_snapshot_canonical_path
+            ON documents(snapshot_id, canonical_path)
+            """
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_documents_snapshot_id ON documents(snapshot_id)"
+        )
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_plans_snapshot_id ON plans(snapshot_id)")
+
+        self._backfill_snapshot_bindings(conn)
+
     def initialize_schema(self) -> None:
         """Create database schema if it does not exist."""
         with self.connection() as conn:
             conn.executescript(
                 """
+                CREATE TABLE IF NOT EXISTS snapshots (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    snapshot_name TEXT NOT NULL,
+                    root_path TEXT NOT NULL,
+                    doc_count INTEGER NOT NULL,
+                    unique_payload_count INTEGER NOT NULL,
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_snapshots_name
+                    ON snapshots(snapshot_name);
+
                 CREATE TABLE IF NOT EXISTS documents (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    snapshot_id INTEGER NOT NULL,
                     canonical_path TEXT NOT NULL,
                     rel_path TEXT NOT NULL,
                     sha256 TEXT NOT NULL,
@@ -52,12 +137,15 @@ class Storage:
                     lines INTEGER NOT NULL,
                     mime TEXT NOT NULL,
                     family TEXT NOT NULL,
-                    ingested_at TEXT NOT NULL
+                    ingested_at TEXT NOT NULL,
+                    FOREIGN KEY(snapshot_id) REFERENCES snapshots(id) ON DELETE CASCADE
                 );
-                CREATE UNIQUE INDEX IF NOT EXISTS idx_documents_canonical_path
-                    ON documents(canonical_path);
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_documents_snapshot_canonical_path
+                    ON documents(snapshot_id, canonical_path);
                 CREATE INDEX IF NOT EXISTS idx_documents_sha256
                     ON documents(sha256);
+                CREATE INDEX IF NOT EXISTS idx_documents_snapshot_id
+                    ON documents(snapshot_id);
 
                 CREATE TABLE IF NOT EXISTS document_aliases (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -92,12 +180,16 @@ class Storage:
                 CREATE TABLE IF NOT EXISTS plans (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     profile_id INTEGER NOT NULL,
+                    snapshot_id INTEGER,
                     title TEXT NOT NULL,
                     total_hours REAL NOT NULL,
                     module_count INTEGER NOT NULL,
                     created_at TEXT NOT NULL,
-                    FOREIGN KEY(profile_id) REFERENCES profiles(id) ON DELETE CASCADE
+                    FOREIGN KEY(profile_id) REFERENCES profiles(id) ON DELETE CASCADE,
+                    FOREIGN KEY(snapshot_id) REFERENCES snapshots(id) ON DELETE SET NULL
                 );
+                CREATE INDEX IF NOT EXISTS idx_plans_snapshot_id
+                    ON plans(snapshot_id);
 
                 CREATE TABLE IF NOT EXISTS plan_modules (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -135,24 +227,9 @@ class Storage:
                 );
                 CREATE INDEX IF NOT EXISTS idx_ledger_events_id
                     ON ledger_events(id);
-
-                CREATE TABLE IF NOT EXISTS snapshots (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    snapshot_name TEXT NOT NULL,
-                    root_path TEXT NOT NULL,
-                    doc_count INTEGER NOT NULL,
-                    unique_payload_count INTEGER NOT NULL,
-                    created_at TEXT NOT NULL
-                );
                 """
             )
-
-    def reset_corpus(self) -> None:
-        """Clear corpus tables before re-ingestion."""
-        with self.connection() as conn:
-            conn.execute("DELETE FROM document_chunks")
-            conn.execute("DELETE FROM document_aliases")
-            conn.execute("DELETE FROM documents")
+            self._run_migrations(conn)
 
     def insert_snapshot(
         self,
@@ -160,27 +237,74 @@ class Storage:
         root_path: str,
         doc_count: int,
         unique_payload_count: int,
+        *,
+        conn: sqlite3.Connection | None = None,
     ) -> int:
         created_at = utcnow_iso()
-        with self.connection() as conn:
-            cur = conn.execute(
+        if conn is None:
+            with self.connection() as db_conn:
+                return self.insert_snapshot(
+                    snapshot_name=snapshot_name,
+                    root_path=root_path,
+                    doc_count=doc_count,
+                    unique_payload_count=unique_payload_count,
+                    conn=db_conn,
+                )
+        cur = conn.execute(
+            """
+            INSERT INTO snapshots(snapshot_name, root_path, doc_count, unique_payload_count, created_at)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (snapshot_name, root_path, doc_count, unique_payload_count, created_at),
+        )
+        return self._cursor_lastrowid(cur)
+
+    def resolve_snapshot(
+        self,
+        *,
+        snapshot_id: int | None = None,
+        snapshot_name: str | None = "latest",
+        conn: sqlite3.Connection | None = None,
+    ) -> dict[str, Any] | None:
+        if conn is None:
+            with self.connection() as db_conn:
+                return self.resolve_snapshot(
+                    snapshot_id=snapshot_id,
+                    snapshot_name=snapshot_name,
+                    conn=db_conn,
+                )
+
+        row: sqlite3.Row | None
+        if snapshot_id is not None:
+            row = conn.execute("SELECT * FROM snapshots WHERE id = ?", (snapshot_id,)).fetchone()
+        elif snapshot_name and snapshot_name != "latest":
+            row = conn.execute(
                 """
-                INSERT INTO snapshots(snapshot_name, root_path, doc_count, unique_payload_count, created_at)
-                VALUES (?, ?, ?, ?, ?)
+                SELECT * FROM snapshots
+                WHERE snapshot_name = ?
+                ORDER BY id DESC
+                LIMIT 1
                 """,
-                (snapshot_name, root_path, doc_count, unique_payload_count, created_at),
-            )
-            return int(cur.lastrowid)
+                (snapshot_name,),
+            ).fetchone()
+        else:
+            row = conn.execute("SELECT * FROM snapshots ORDER BY id DESC LIMIT 1").fetchone()
+        return dict(row) if row else None
+
+    def get_snapshot(
+        self,
+        snapshot_id: int,
+        *,
+        conn: sqlite3.Connection | None = None,
+    ) -> dict[str, Any] | None:
+        return self.resolve_snapshot(snapshot_id=snapshot_id, conn=conn)
 
     def latest_snapshot(self) -> dict[str, Any] | None:
-        with self.connection() as conn:
-            row = conn.execute(
-                "SELECT * FROM snapshots ORDER BY id DESC LIMIT 1"
-            ).fetchone()
-        return dict(row) if row else None
+        return self.resolve_snapshot(snapshot_name="latest")
 
     def insert_document(
         self,
+        snapshot_id: int,
         canonical_path: str,
         rel_path: str,
         sha256: str,
@@ -189,23 +313,91 @@ class Storage:
         mime: str,
         family: str,
         ingested_at: str,
+        *,
+        conn: sqlite3.Connection | None = None,
     ) -> int:
-        with self.connection() as conn:
-            cur = conn.execute(
-                """
-                INSERT INTO documents(canonical_path, rel_path, sha256, bytes, lines, mime, family, ingested_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                (canonical_path, rel_path, sha256, size_bytes, lines, mime, family, ingested_at),
+        if conn is None:
+            with self.connection() as db_conn:
+                return self.insert_document(
+                    snapshot_id=snapshot_id,
+                    canonical_path=canonical_path,
+                    rel_path=rel_path,
+                    sha256=sha256,
+                    size_bytes=size_bytes,
+                    lines=lines,
+                    mime=mime,
+                    family=family,
+                    ingested_at=ingested_at,
+                    conn=db_conn,
+                )
+        cur = conn.execute(
+            """
+            INSERT INTO documents(
+                snapshot_id, canonical_path, rel_path, sha256, bytes, lines, mime, family, ingested_at
             )
-            return int(cur.lastrowid)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                snapshot_id,
+                canonical_path,
+                rel_path,
+                sha256,
+                size_bytes,
+                lines,
+                mime,
+                family,
+                ingested_at,
+            ),
+        )
+        return self._cursor_lastrowid(cur)
 
-    def insert_alias(self, document_id: int, alias_path: str) -> None:
-        with self.connection() as conn:
-            conn.execute(
-                "INSERT INTO document_aliases(document_id, alias_path) VALUES (?, ?)",
-                (document_id, alias_path),
-            )
+    def insert_aliases(
+        self,
+        document_id: int,
+        alias_paths: Sequence[str],
+        *,
+        conn: sqlite3.Connection | None = None,
+    ) -> int:
+        if not alias_paths:
+            return 0
+        if conn is None:
+            with self.connection() as db_conn:
+                return self.insert_aliases(document_id, alias_paths, conn=db_conn)
+        conn.executemany(
+            "INSERT INTO document_aliases(document_id, alias_path) VALUES (?, ?)",
+            [(document_id, alias_path) for alias_path in alias_paths],
+        )
+        return len(alias_paths)
+
+    def insert_alias(
+        self,
+        document_id: int,
+        alias_path: str,
+        *,
+        conn: sqlite3.Connection | None = None,
+    ) -> None:
+        self.insert_aliases(document_id=document_id, alias_paths=[alias_path], conn=conn)
+
+    def insert_chunks(
+        self,
+        document_id: int,
+        chunks: Sequence[tuple[int, str, str, int]],
+        *,
+        conn: sqlite3.Connection | None = None,
+    ) -> int:
+        if not chunks:
+            return 0
+        if conn is None:
+            with self.connection() as db_conn:
+                return self.insert_chunks(document_id=document_id, chunks=chunks, conn=db_conn)
+        conn.executemany(
+            """
+            INSERT INTO document_chunks(document_id, chunk_index, heading_path, text, token_estimate)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            [(document_id, chunk_index, heading_path, text, token_estimate) for chunk_index, heading_path, text, token_estimate in chunks],
+        )
+        return len(chunks)
 
     def insert_chunk(
         self,
@@ -214,54 +406,131 @@ class Storage:
         heading_path: str,
         text: str,
         token_estimate: int,
+        *,
+        conn: sqlite3.Connection | None = None,
     ) -> None:
-        with self.connection() as conn:
-            conn.execute(
-                """
-                INSERT INTO document_chunks(document_id, chunk_index, heading_path, text, token_estimate)
-                VALUES (?, ?, ?, ?, ?)
-                """,
-                (document_id, chunk_index, heading_path, text, token_estimate),
-            )
+        self.insert_chunks(
+            document_id=document_id,
+            chunks=[(chunk_index, heading_path, text, token_estimate)],
+            conn=conn,
+        )
 
-    def corpus_stats(self) -> dict[str, Any]:
+    def corpus_stats(
+        self,
+        *,
+        snapshot_id: int | None = None,
+        snapshot_name: str | None = "latest",
+    ) -> dict[str, Any]:
         """Stable JSON schema for corpus statistics."""
         with self.connection() as conn:
-            doc_count = int(conn.execute("SELECT COUNT(*) FROM documents").fetchone()[0])
-            alias_count = int(conn.execute("SELECT COUNT(*) FROM document_aliases").fetchone()[0])
-            chunk_count = int(conn.execute("SELECT COUNT(*) FROM document_chunks").fetchone()[0])
-            total_bytes = int(
-                conn.execute("SELECT COALESCE(SUM(bytes), 0) FROM documents").fetchone()[0]
+            selected = self.resolve_snapshot(
+                snapshot_id=snapshot_id,
+                snapshot_name=snapshot_name,
+                conn=conn,
             )
-            by_family_rows = conn.execute(
-                "SELECT family, COUNT(*) AS n FROM documents GROUP BY family ORDER BY family"
-            ).fetchall()
-            latest_snapshot = conn.execute(
-                "SELECT * FROM snapshots ORDER BY id DESC LIMIT 1"
-            ).fetchone()
+            latest = self.resolve_snapshot(snapshot_name="latest", conn=conn)
+
+            if selected is None:
+                doc_count = 0
+                alias_count = 0
+                chunk_count = 0
+                total_bytes = 0
+                by_family_rows: list[sqlite3.Row] = []
+            else:
+                selected_id = int(selected["id"])
+                doc_count = int(
+                    conn.execute(
+                        "SELECT COUNT(*) FROM documents WHERE snapshot_id = ?",
+                        (selected_id,),
+                    ).fetchone()[0]
+                )
+                alias_count = int(
+                    conn.execute(
+                        """
+                        SELECT COUNT(*)
+                        FROM document_aliases a
+                        JOIN documents d ON d.id = a.document_id
+                        WHERE d.snapshot_id = ?
+                        """,
+                        (selected_id,),
+                    ).fetchone()[0]
+                )
+                chunk_count = int(
+                    conn.execute(
+                        """
+                        SELECT COUNT(*)
+                        FROM document_chunks c
+                        JOIN documents d ON d.id = c.document_id
+                        WHERE d.snapshot_id = ?
+                        """,
+                        (selected_id,),
+                    ).fetchone()[0]
+                )
+                total_bytes = int(
+                    conn.execute(
+                        "SELECT COALESCE(SUM(bytes), 0) FROM documents WHERE snapshot_id = ?",
+                        (selected_id,),
+                    ).fetchone()[0]
+                )
+                by_family_rows = conn.execute(
+                    """
+                    SELECT family, COUNT(*) AS n
+                    FROM documents
+                    WHERE snapshot_id = ?
+                    GROUP BY family
+                    ORDER BY family
+                    """,
+                    (selected_id,),
+                ).fetchall()
+
             ledger_events = int(conn.execute("SELECT COUNT(*) FROM ledger_events").fetchone()[0])
 
         family_breakdown = {str(row["family"]): int(row["n"]) for row in by_family_rows}
         return {
             "schema_version": "1.0",
+            "snapshot_selector": {"snapshot_id": snapshot_id, "snapshot_name": snapshot_name},
+            "snapshot": selected,
+            "latest_snapshot": latest,
             "document_count": doc_count,
             "alias_count": alias_count,
             "chunk_count": chunk_count,
             "total_bytes": total_bytes,
             "family_breakdown": family_breakdown,
-            "latest_snapshot": dict(latest_snapshot) if latest_snapshot else None,
             "ledger_event_count": ledger_events,
         }
 
-    def list_documents(self, limit: int | None = None) -> list[dict[str, Any]]:
-        query = "SELECT id, canonical_path, rel_path, family, sha256 FROM documents ORDER BY canonical_path"
-        params: tuple[Any, ...] = ()
+    def list_documents(
+        self,
+        *,
+        snapshot_id: int,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
+        query = """
+            SELECT id, snapshot_id, canonical_path, rel_path, family, sha256
+            FROM documents
+            WHERE snapshot_id = ?
+            ORDER BY canonical_path
+        """
+        params: tuple[Any, ...] = (snapshot_id,)
         if limit is not None:
             query += " LIMIT ?"
-            params = (limit,)
+            params = (snapshot_id, limit)
         with self.connection() as conn:
             rows = conn.execute(query, params).fetchall()
         return [dict(r) for r in rows]
+
+    def list_snapshot_sha256(self, snapshot_id: int) -> list[str]:
+        with self.connection() as conn:
+            rows = conn.execute(
+                """
+                SELECT DISTINCT sha256
+                FROM documents
+                WHERE snapshot_id = ?
+                ORDER BY sha256
+                """,
+                (snapshot_id,),
+            ).fetchall()
+        return [str(row["sha256"]) for row in rows]
 
     def insert_profile(
         self,
@@ -279,7 +548,7 @@ class Storage:
                 """,
                 (name, level, json.dumps(goals), json.dumps(context), created_at),
             )
-            return int(cur.lastrowid)
+            return self._cursor_lastrowid(cur)
 
     def insert_plan(
         self,
@@ -287,17 +556,18 @@ class Storage:
         title: str,
         total_hours: float,
         module_count: int,
+        snapshot_id: int | None,
     ) -> int:
         created_at = utcnow_iso()
         with self.connection() as conn:
             cur = conn.execute(
                 """
-                INSERT INTO plans(profile_id, title, total_hours, module_count, created_at)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO plans(profile_id, snapshot_id, title, total_hours, module_count, created_at)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                (profile_id, title, total_hours, module_count, created_at),
+                (profile_id, snapshot_id, title, total_hours, module_count, created_at),
             )
-            return int(cur.lastrowid)
+            return self._cursor_lastrowid(cur)
 
     def insert_plan_module(
         self,
@@ -332,7 +602,7 @@ class Storage:
                     estimated_hours,
                 ),
             )
-            return int(cur.lastrowid)
+            return self._cursor_lastrowid(cur)
 
     def insert_hook_run(
         self,
@@ -350,13 +620,13 @@ class Storage:
                 """,
                 (plan_id, hook_name, status, json.dumps(output), created_at),
             )
-            return int(cur.lastrowid)
+            return self._cursor_lastrowid(cur)
 
-    def last_ledger_hash(self) -> str:
-        with self.connection() as conn:
-            row = conn.execute(
-                "SELECT event_hash FROM ledger_events ORDER BY id DESC LIMIT 1"
-            ).fetchone()
+    def last_ledger_hash(self, *, conn: sqlite3.Connection | None = None) -> str:
+        if conn is None:
+            with self.connection() as db_conn:
+                return self.last_ledger_hash(conn=db_conn)
+        row = conn.execute("SELECT event_hash FROM ledger_events ORDER BY id DESC LIMIT 1").fetchone()
         return str(row["event_hash"]) if row else ""
 
     def append_ledger_event(
@@ -366,16 +636,27 @@ class Storage:
         event_type: str,
         payload: dict[str, Any],
         created_at: str,
+        *,
+        conn: sqlite3.Connection | None = None,
     ) -> int:
-        with self.connection() as conn:
-            cur = conn.execute(
-                """
-                INSERT INTO ledger_events(prev_hash, event_hash, event_type, payload_json, created_at)
-                VALUES (?, ?, ?, ?, ?)
-                """,
-                (prev_hash, event_hash, event_type, json.dumps(payload, sort_keys=True), created_at),
-            )
-            return int(cur.lastrowid)
+        if conn is None:
+            with self.connection() as db_conn:
+                return self.append_ledger_event(
+                    prev_hash=prev_hash,
+                    event_hash=event_hash,
+                    event_type=event_type,
+                    payload=payload,
+                    created_at=created_at,
+                    conn=db_conn,
+                )
+        cur = conn.execute(
+            """
+            INSERT INTO ledger_events(prev_hash, event_hash, event_type, payload_json, created_at)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (prev_hash, event_hash, event_type, json.dumps(payload, sort_keys=True), created_at),
+        )
+        return self._cursor_lastrowid(cur)
 
     def iter_ledger_events(self) -> list[dict[str, Any]]:
         with self.connection() as conn:

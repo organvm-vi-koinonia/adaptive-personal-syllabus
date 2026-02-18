@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sqlite3
 from typing import Any
 
 from .models import LedgerEvent
@@ -34,8 +35,14 @@ class Ledger:
         )
         return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
-    def append(self, event_type: str, payload: dict[str, Any]) -> LedgerEvent:
-        prev_hash = self.storage.last_ledger_hash()
+    def append(
+        self,
+        event_type: str,
+        payload: dict[str, Any],
+        *,
+        conn: sqlite3.Connection | None = None,
+    ) -> LedgerEvent:
+        prev_hash = self.storage.last_ledger_hash(conn=conn)
         created_at = utcnow_iso()
         event_hash = self._hash_event(prev_hash, event_type, payload, created_at)
         self.storage.append_ledger_event(
@@ -44,6 +51,7 @@ class Ledger:
             event_type=event_type,
             payload=payload,
             created_at=created_at,
+            conn=conn,
         )
         return LedgerEvent(
             prev_hash=prev_hash,

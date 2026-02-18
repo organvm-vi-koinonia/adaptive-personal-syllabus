@@ -42,7 +42,7 @@ class SyllabusGenerator:
 
     def generate(self, profile: LearnerProfile) -> LearningPath:
         """Generate a personalized learning path for the given learner profile."""
-        modules = []
+        modules: list[LearningModule] = []
 
         for organ_code in profile.organs_of_interest:
             organ_slug = ORGAN_MAP.get(organ_code, organ_code.lower())
@@ -74,7 +74,7 @@ class SyllabusGenerator:
         self, organ_slug: str, level: DifficultyLevel
     ) -> list[LearningModule]:
         """Build learning modules from taxonomy and readings for a specific organ."""
-        modules = []
+        modules: list[LearningModule] = []
 
         # Find the organ node in taxonomy
         organ_node = None

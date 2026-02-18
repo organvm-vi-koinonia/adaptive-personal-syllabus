@@ -53,6 +53,7 @@ def test_corpus_ingest_dedup_and_chunks(tmp_path: Path) -> None:
 
     assert snapshot.doc_count == 3
     assert snapshot.unique_payload_count == 2
+    assert snapshot.snapshot_id > 0
 
     stats = storage.corpus_stats()
     assert stats["document_count"] == 2
@@ -71,6 +72,38 @@ def test_corpus_ingest_dedup_and_chunks(tmp_path: Path) -> None:
     assert str(alias["alias_path"]).endswith("b.md")
 
 
+def test_corpus_ingest_preserves_multiple_snapshots(tmp_path: Path) -> None:
+    db_path = tmp_path / "test.db"
+    storage = Storage(db_path)
+    ledger = Ledger(storage)
+    ingestor = CorpusIngestor(storage, ledger)
+
+    root_a = tmp_path / "corpus-a"
+    root_a.mkdir()
+    (root_a / "a.md").write_text("# A\nalpha", encoding="utf-8")
+    snap_a = ingestor.ingest(root_a, "snap-a")
+
+    root_b = tmp_path / "corpus-b"
+    root_b.mkdir()
+    (root_b / "b.md").write_text("# B\nbeta", encoding="utf-8")
+    (root_b / "c.json").write_text('{"ok": true}', encoding="utf-8")
+    snap_b = ingestor.ingest(root_b, "snap-b")
+
+    assert snap_a.snapshot_id != snap_b.snapshot_id
+
+    stats_latest = storage.corpus_stats()
+    assert stats_latest["snapshot"]["snapshot_name"] == "snap-b"
+    assert stats_latest["document_count"] == 2
+
+    stats_a_by_name = storage.corpus_stats(snapshot_name="snap-a")
+    assert stats_a_by_name["snapshot"]["snapshot_name"] == "snap-a"
+    assert stats_a_by_name["document_count"] == 1
+
+    stats_b_by_id = storage.corpus_stats(snapshot_id=snap_b.snapshot_id)
+    assert stats_b_by_id["snapshot"]["snapshot_name"] == "snap-b"
+    assert stats_b_by_id["document_count"] == 2
+
+
 def test_corpus_ingest_rejects_malformed_json(tmp_path: Path) -> None:
     (tmp_path / "bad.json").write_text('{"x": }', encoding="utf-8")
     db_path = tmp_path / "test.db"
@@ -79,3 +112,13 @@ def test_corpus_ingest_rejects_malformed_json(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="Malformed JSON"):
         CorpusIngestor(storage, ledger).ingest(tmp_path, "snap-bad")
+
+
+def test_corpus_ingest_rejects_malformed_yaml(tmp_path: Path) -> None:
+    (tmp_path / "bad.yaml").write_text("a: [1, 2", encoding="utf-8")
+    db_path = tmp_path / "test.db"
+    storage = Storage(db_path)
+    ledger = Ledger(storage)
+
+    with pytest.raises(ValueError, match="ERR_MALFORMED_YAML"):
+        CorpusIngestor(storage, ledger).ingest(tmp_path, "snap-bad-yaml")
