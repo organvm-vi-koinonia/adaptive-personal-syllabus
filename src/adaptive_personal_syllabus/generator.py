@@ -57,6 +57,9 @@ class SyllabusGenerator:
         }
         modules.sort(key=lambda m: difficulty_order.get(m.difficulty, 1))
 
+        # Update profile with total module count for accurate progress
+        profile.total_modules = len(modules)
+
         # Filter out completed modules
         modules = [m for m in modules if m.module_id not in profile.completed_modules]
 
@@ -108,7 +111,19 @@ class SyllabusGenerator:
 
         # Create a module for each child topic
         for child in organ_node.get("children", []):
-            child_readings = [r["title"] for r in filtered_readings][:3]  # max 3 readings per module
+            # Filter readings matching this specific child topic
+            child_slug = child["slug"]
+            child_readings = [
+                r["title"]
+                for r in filtered_readings
+                if any(
+                    tag == child_slug or child_slug in tag
+                    for tag in r.get("organ_tags", [])
+                )
+            ][:3]  # max 3 readings per module
+            if not child_readings:
+                # Fall back to organ-level readings if none match the child
+                child_readings = [r["title"] for r in filtered_readings][:3]
             if not child_readings:
                 child_readings = [f"See {organ_node['label']} documentation"]
 

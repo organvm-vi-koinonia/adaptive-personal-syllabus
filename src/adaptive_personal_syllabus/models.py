@@ -20,11 +20,15 @@ class LearnerProfile:
     level: DifficultyLevel = DifficultyLevel.BEGINNER
     completed_modules: list[str] = field(default_factory=list)
 
+    total_modules: int = 0  # set after path generation for accurate progress
+
     @property
     def progress_pct(self) -> float:
         if not self.completed_modules:
             return 0.0
-        # Simple percentage based on modules completed
+        if self.total_modules > 0:
+            return min(100.0, len(self.completed_modules) / self.total_modules * 100.0)
+        # Fallback when total is unknown: cap at 100%
         return min(100.0, len(self.completed_modules) * 10.0)
 
 

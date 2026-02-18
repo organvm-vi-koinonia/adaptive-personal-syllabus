@@ -20,6 +20,13 @@ def test_learner_profile_progress():
     assert profile.progress_pct == 30.0
 
 
+def test_learner_profile_progress_with_total():
+    profile = LearnerProfile(
+        name="Test", completed_modules=["m1", "m2"], total_modules=5
+    )
+    assert profile.progress_pct == 40.0
+
+
 def test_learning_module():
     mod = LearningModule(
         module_id="test-01",
