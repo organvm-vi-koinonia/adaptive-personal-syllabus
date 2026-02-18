@@ -11,6 +11,8 @@ license = {text = "MIT"}
 dependencies = [
     "click>=8.0",
     "PyYAML>=6.0",
+    "koinonia-db",
+    "sqlalchemy>=2.0",
 ]
 
 [project.optional-dependencies]

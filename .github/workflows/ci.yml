@@ -24,6 +24,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
+      - name: Install koinonia-db from git
+        run: pip install "koinonia-db @ git+https://github.com/organvm-vi-koinonia/koinonia-db.git"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
