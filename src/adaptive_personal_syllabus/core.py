@@ -9,7 +9,13 @@ import click
 
 from . import __version__
 from .corpus import CorpusIngestor
-from .docs_audit import DocsAuditService, render_audit_markdown, write_report
+from .docs_audit import (
+    DocsAuditService,
+    build_milestone_execution_plan,
+    render_audit_markdown,
+    render_milestone_execution_markdown,
+    write_report,
+)
 from .generator import SyllabusGenerator
 from .hooks import HookRunner
 from .ledger import Ledger
@@ -413,6 +419,21 @@ def docs_group() -> None:
     """Docs ingestion + suggestion coverage audits."""
 
 
+def _collect_excluded_paths(root: Path, output_paths: list[Path | None]) -> set[Path]:
+    root = root.expanduser().resolve()
+    excluded_paths: set[Path] = set()
+    for output_path in output_paths:
+        if output_path is None:
+            continue
+        resolved = output_path.expanduser().resolve()
+        try:
+            resolved.relative_to(root)
+        except ValueError:
+            continue
+        excluded_paths.add(resolved)
+    return excluded_paths
+
+
 @docs_group.command("audit")
 @click.option(
     "--root",
@@ -450,16 +471,7 @@ def docs_audit(
 ) -> None:
     """Audit all docs files and map every suggestion/use-case to planned or implemented status."""
     root = root.expanduser().resolve()
-    excluded_paths: set[Path] = set()
-    for output_path in (write_json, write_md):
-        if output_path is None:
-            continue
-        resolved = output_path.expanduser().resolve()
-        try:
-            resolved.relative_to(root)
-        except ValueError:
-            continue
-        excluded_paths.add(resolved)
+    excluded_paths = _collect_excluded_paths(root, [write_json, write_md])
 
     storage = Storage(db_path)
     chain = Ledger(storage)
@@ -476,6 +488,76 @@ def docs_audit(
         click.echo(markdown)
     else:
         click.echo(json.dumps(report, indent=2))
+
+
+@docs_group.command("execute-milestone")
+@click.option(
+    "--root",
+    required=True,
+    type=click.Path(path_type=Path, exists=True, file_okay=False, dir_okay=True),
+    help="Root docs directory to audit.",
+)
+@click.option("--snapshot", default="docs-audit", show_default=True, help="Snapshot name.")
+@click.option(
+    "--milestone",
+    default=None,
+    help="Milestone ID to execute (defaults to report-recommended start milestone).",
+)
+@click.option("--limit", type=int, default=20, show_default=True, help="Maximum prioritized items.")
+@click.option("--format", "fmt", type=click.Choice(["json", "md"]), default="json")
+@click.option(
+    "--write-json",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="Optional output path for JSON execution plan.",
+)
+@click.option(
+    "--write-md",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="Optional output path for Markdown execution plan.",
+)
+@click.option(
+    "--db-path",
+    type=click.Path(path_type=Path),
+    default=str(DEFAULT_DB_PATH),
+    show_default=True,
+)
+def docs_execute_milestone(
+    root: Path,
+    snapshot: str,
+    milestone: str | None,
+    limit: int,
+    fmt: str,
+    write_json: Path | None,
+    write_md: Path | None,
+    db_path: Path,
+) -> None:
+    """Build and export a prioritized implementation plan for one milestone bucket."""
+    root = root.expanduser().resolve()
+    excluded_paths = _collect_excluded_paths(root, [write_json, write_md])
+
+    storage = Storage(db_path)
+    chain = Ledger(storage)
+    auditor = DocsAuditService(storage=storage, ledger=chain)
+    report = auditor.audit(root=root, snapshot_name=snapshot, exclude_paths=excluded_paths)
+
+    selected_milestone = milestone or report["milestones"]["recommended_start_milestone"]
+    if not selected_milestone:
+        raise click.ClickException("No planned milestone items found in audit report.")
+
+    plan = build_milestone_execution_plan(report, milestone=selected_milestone, limit=max(1, limit))
+    markdown = render_milestone_execution_markdown(plan)
+
+    if write_json is not None:
+        write_report(write_json, plan)
+    if write_md is not None:
+        write_report(write_md, markdown)
+
+    if fmt == "md":
+        click.echo(markdown)
+    else:
+        click.echo(json.dumps(plan, indent=2))
 
 
 def main() -> None:

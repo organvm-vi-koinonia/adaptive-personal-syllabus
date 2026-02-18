@@ -49,10 +49,40 @@ jobs:
           syllabus profile --help
           syllabus plan --help
           syllabus chamber --help
+          syllabus docs --help
           aps --help
+
+      - name: Docs audit gate
+        run: |
+          syllabus docs audit \
+            --root ./docs \
+            --snapshot ci-docs \
+            --format json \
+            --write-json ./docs-audit-ci.json \
+            --write-md ./docs-audit-ci.md \
+            --db-path ./docs-audit-ci.db > /tmp/docs-audit-output.json
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          payload = json.loads(Path("/tmp/docs-audit-output.json").read_text())
+          assert payload["ingest_verification"]["all_files_ingested"] is True
+          assert payload["suggestions"]["count"] > 0
+          assert payload["milestones"]["recommended_start_milestone"] is not None
+          PY
 
       - name: Test with pytest
         run: pytest --cov=. --cov-report=xml --cov-report=term --cov-report=html
+
+      - name: Upload docs audit artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-audit-${{ matrix.python-version }}
+          path: |
+            docs-audit-ci.json
+            docs-audit-ci.md
 
       - name: Upload coverage to Codecov
         if: success() && hashFiles('coverage.xml') != ''

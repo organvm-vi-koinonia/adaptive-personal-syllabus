@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from .corpus import CorpusIngestor, TEXT_EXTENSIONS, discover_documents
 from .ledger import Ledger
 from .storage import Storage, utcnow_iso
@@ -122,7 +124,7 @@ MILESTONE_RULES: list[tuple[str, tuple[str, ...]]] = [
             "qemu",
             "driver",
             "microkernel",
-            "eBPF".lower(),
+            "ebpf",
         ),
     ),
     (
@@ -171,6 +173,7 @@ MILESTONE_RULES: list[tuple[str, tuple[str, ...]]] = [
             "cicd",
             "workflow",
             "recovery",
+            "feature prioritization",
         ),
     ),
     (
@@ -189,6 +192,47 @@ MILESTONE_RULES: list[tuple[str, tuple[str, ...]]] = [
         ),
     ),
 ]
+
+
+MILESTONE_IMPACT_WEIGHTS: dict[str, int] = {
+    # Integration/CI has platform-wide leverage, so it is intentionally weighted highest.
+    "integration-observability-ci": 10,
+    "systems-kernel-runtime": 4,
+    "pedagogy-scaffolding": 4,
+    "ui-xr-accessibility": 3,
+    "dsl-neural-symbolic-verification": 3,
+    "wings-community-governance": 2,
+    "general-backlog": 1,
+}
+
+MILESTONE_OBJECTIVES: dict[str, str] = {
+    "integration-observability-ci": (
+        "Establish measurable integration checkpoints, reliable CI quality gates, and "
+        "quantitative KPI tracking for roadmap execution."
+    ),
+    "systems-kernel-runtime": "Advance kernel/runtime implementation safety and observability readiness.",
+    "pedagogy-scaffolding": "Improve learning scaffolding via guided exercises, checkpoints, and diagnostics.",
+    "ui-xr-accessibility": "Strengthen multi-modal UX quality, accessibility, and rendering performance coverage.",
+    "dsl-neural-symbolic-verification": "Harden DSL and neural-symbolic tracks with reproducible validation paths.",
+    "wings-community-governance": "Operationalize Wings/public scholarship/governance with measurable outputs.",
+    "general-backlog": "Triage and route uncategorized actionables into concrete implementation milestones.",
+}
+
+MILESTONE_CHECKPOINTS: dict[str, list[str]] = {
+    "integration-observability-ci": [
+        "Checkpoint 1: Baseline KPI definitions and measurement schema committed.",
+        "Checkpoint 2: CI validates docs audit ingestion completeness and test integrity.",
+        "Checkpoint 3: Milestone tracker records implemented suggestion IDs with evidence links.",
+    ],
+}
+
+EXECUTION_PRIORITY_HINTS: list[tuple[int, tuple[str, ...]]] = [
+    (5, ("kpi", "metric", "benchmark", "reliability", "quantitative", "performance")),
+    (4, ("ci", "cicd", "workflow", "checkpoint", "integration", "feature prioritization")),
+    (3, ("dependency", "schema", "protocol", "recovery", "debug", "failure")),
+]
+
+STATUS_FILE_SUFFIXES = (".status.yaml", ".status.yml")
 
 
 @dataclass(frozen=True)
@@ -297,8 +341,40 @@ def _stable_item_id(prefix: str, text: str) -> str:
     return f"{prefix}-{digest}"
 
 
-def _aggregate_items(items: list[ExtractedItem], prefix: str) -> list[dict[str, Any]]:
+def _load_milestone_status_overrides(root: Path) -> dict[str, str]:
+    """Load explicit implemented suggestion IDs from milestone status files."""
+    overrides: dict[str, str] = {}
+    milestone_dir = root / "implementation" / "milestones"
+    if not milestone_dir.exists():
+        return overrides
+
+    files = sorted(
+        path
+        for path in milestone_dir.iterdir()
+        if path.is_file() and any(path.name.endswith(suffix) for suffix in STATUS_FILE_SUFFIXES)
+    )
+    for path in files:
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        if not isinstance(data, dict):
+            continue
+        milestone = str(data.get("milestone", "")).strip()
+        ids = data.get("implemented_suggestion_ids", [])
+        if not milestone or not isinstance(ids, list):
+            continue
+        for item_id in ids:
+            if isinstance(item_id, str) and item_id.strip():
+                overrides[item_id.strip()] = milestone
+    return overrides
+
+
+def _aggregate_items(
+    items: list[ExtractedItem],
+    prefix: str,
+    *,
+    status_overrides: dict[str, str] | None = None,
+) -> list[dict[str, Any]]:
     grouped: dict[str, dict[str, Any]] = {}
+    overrides = status_overrides or {}
     for item in items:
         normalized = _normalize_text(item.text)
         if len(normalized) < 5:
@@ -318,9 +394,17 @@ def _aggregate_items(items: list[ExtractedItem], prefix: str) -> list[dict[str, 
             key=lambda pair: (pair[0], pair[1]),
         )
         collapsed_refs = [{"rel_path": rel_path, "line": line} for rel_path, line in refs]
-        status, impl_tags, milestone = _classify_suggestion(item["text"])
+        item_id = str(item["id"])
+        if prefix == "feat" and item_id in overrides:
+            milestone_name = overrides[item_id]
+            status = "implemented"
+            impl_tags = [f"milestone.{milestone_name}"]
+            milestone = None
+        else:
+            status, impl_tags, milestone = _classify_suggestion(item["text"])
+
         out_item = {
-            "id": item["id"],
+            "id": item_id,
             "normalized_text": normalized,
             "text": item["text"],
             "status": status,
@@ -335,6 +419,140 @@ def _aggregate_items(items: list[ExtractedItem], prefix: str) -> list[dict[str, 
 
 def _path_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _build_milestone_summary(suggestions: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], str | None]:
+    planned_counts: dict[str, int] = {}
+    implemented_counts: dict[str, int] = {}
+    milestone_keys = {milestone for milestone, _ in MILESTONE_RULES} | {"general-backlog"}
+
+    for item in suggestions:
+        if item["status"] == "planned":
+            milestone = str(item["planned_milestone"] or "general-backlog")
+            planned_counts[milestone] = planned_counts.get(milestone, 0) + 1
+            milestone_keys.add(milestone)
+        elif item["status"] == "implemented":
+            for tag in item.get("implementation_tags", []):
+                if tag.startswith("milestone."):
+                    milestone = tag.split(".", maxsplit=1)[1]
+                    implemented_counts[milestone] = implemented_counts.get(milestone, 0) + 1
+                    milestone_keys.add(milestone)
+
+    summary: list[dict[str, Any]] = []
+    for milestone in sorted(milestone_keys):
+        planned = planned_counts.get(milestone, 0)
+        implemented = implemented_counts.get(milestone, 0)
+        total = planned + implemented
+        weight = MILESTONE_IMPACT_WEIGHTS.get(milestone, 1)
+        summary.append(
+            {
+                "milestone_id": milestone,
+                "planned_count": planned,
+                "implemented_count": implemented,
+                "total_count": total,
+                "impact_weight": weight,
+                "impact_score": planned * weight,
+                "completion_pct": round((implemented / total * 100.0), 2) if total else 0.0,
+                "objective": MILESTONE_OBJECTIVES.get(milestone, ""),
+            }
+        )
+
+    summary.sort(key=lambda row: (-int(row["impact_score"]), -int(row["planned_count"]), row["milestone_id"]))
+    recommended = next((row["milestone_id"] for row in summary if int(row["planned_count"]) > 0), None)
+    return summary, recommended
+
+
+def _milestone_item_priority(text: str) -> int:
+    lowered = text.lower()
+    score = 1
+    for points, hints in EXECUTION_PRIORITY_HINTS:
+        if any(hint in lowered for hint in hints):
+            score += points
+    return score
+
+
+def build_milestone_execution_plan(
+    report: dict[str, Any],
+    *,
+    milestone: str,
+    limit: int = 20,
+) -> dict[str, Any]:
+    """Build deterministic prioritized execution plan for a milestone bucket."""
+    planned = [
+        item
+        for item in report["suggestions"]["items"]
+        if item["status"] == "planned" and (item["planned_milestone"] or "general-backlog") == milestone
+    ]
+    ranked = sorted(
+        planned,
+        key=lambda item: (-_milestone_item_priority(str(item["text"])), str(item["text"]).lower()),
+    )
+    selected = ranked[: max(1, limit)]
+
+    selected_rows: list[dict[str, Any]] = []
+    for item in selected:
+        source = item["source_refs"][0]
+        selected_rows.append(
+            {
+                "id": item["id"],
+                "text": item["text"],
+                "priority_score": _milestone_item_priority(str(item["text"])),
+                "source_ref": {"rel_path": source["rel_path"], "line": source["line"]},
+            }
+        )
+
+    return {
+        "schema_version": "1.0",
+        "generated_at": utcnow_iso(),
+        "milestone": milestone,
+        "objective": MILESTONE_OBJECTIVES.get(milestone, ""),
+        "planned_item_count": len(planned),
+        "selected_item_count": len(selected_rows),
+        "checkpoints": MILESTONE_CHECKPOINTS.get(
+            milestone,
+            [
+                "Checkpoint 1: Define scope and baseline metrics for this milestone.",
+                "Checkpoint 2: Implement highest-priority roadmap items with tests.",
+                "Checkpoint 3: Record completion evidence and rerun docs audit.",
+            ],
+        ),
+        "exit_criteria": [
+            "All selected milestone items are implemented or intentionally deferred with rationale.",
+            "Automated tests pass on current branch.",
+            "Docs audit report regenerated with updated milestone status evidence.",
+        ],
+        "selected_items": selected_rows,
+    }
+
+
+def render_milestone_execution_markdown(plan: dict[str, Any]) -> str:
+    """Render markdown execution checklist for a milestone plan."""
+    lines = [
+        f"# Milestone Execution Plan: {plan['milestone']}",
+        "",
+        f"- Generated at: `{plan['generated_at']}`",
+        f"- Objective: {plan['objective'] or 'N/A'}",
+        f"- Planned items in bucket: `{plan['planned_item_count']}`",
+        f"- Selected for this run: `{plan['selected_item_count']}`",
+        "",
+        "## Checkpoints",
+        "",
+    ]
+    for cp in plan["checkpoints"]:
+        lines.append(f"- {cp}")
+
+    lines.extend(["", "## Prioritized Items", ""])
+    for item in plan["selected_items"]:
+        src = item["source_ref"]
+        lines.append(
+            f"- `{item['id']}` (score={item['priority_score']}) {item['text']} "
+            f"({src['rel_path']}:{src['line']})"
+        )
+
+    lines.extend(["", "## Exit Criteria", ""])
+    for criterion in plan["exit_criteria"]:
+        lines.append(f"- {criterion}")
+    return "\n".join(lines) + "\n"
 
 
 class DocsAuditService:
@@ -355,6 +573,7 @@ class DocsAuditService:
         excluded = {p.expanduser().resolve() for p in (exclude_paths or set())}
         ingestor = CorpusIngestor(self.storage, self.ledger)
         snapshot = ingestor.ingest(root=root, snapshot_name=snapshot_name, exclude_paths=excluded)
+        status_overrides = _load_milestone_status_overrides(root)
 
         paths = [path for path in discover_documents(root) if path.resolve() not in excluded]
         file_manifest: list[dict[str, Any]] = []
@@ -391,8 +610,13 @@ class DocsAuditService:
             extracted_suggestions.extend(suggestions)
             extracted_use_cases.extend(use_cases)
 
-        suggestions = _aggregate_items(extracted_suggestions, prefix="feat")
+        suggestions = _aggregate_items(
+            extracted_suggestions,
+            prefix="feat",
+            status_overrides=status_overrides,
+        )
         use_cases = _aggregate_items(extracted_use_cases, prefix="usecase")
+        milestone_summary, recommended_start = _build_milestone_summary(suggestions)
 
         implemented_count = sum(1 for item in suggestions if item["status"] == "implemented")
         planned_count = sum(1 for item in suggestions if item["status"] == "planned")
@@ -427,6 +651,10 @@ class DocsAuditService:
                 "count": len(use_cases),
                 "items": use_cases,
             },
+            "milestones": {
+                "summary": milestone_summary,
+                "recommended_start_milestone": recommended_start,
+            },
         }
 
         self.ledger.append(
@@ -440,6 +668,7 @@ class DocsAuditService:
                 "implemented_count": implemented_count,
                 "planned_count": planned_count,
                 "use_case_count": len(use_cases),
+                "recommended_start_milestone": recommended_start,
             },
         )
         return report
@@ -466,10 +695,20 @@ def render_audit_markdown(report: dict[str, Any]) -> str:
         f"- Total suggestions: `{report['suggestions']['count']}`",
         f"- Implemented: `{report['suggestions']['implemented_count']}`",
         f"- Planned: `{report['suggestions']['planned_count']}`",
+        f"- Recommended start milestone: `{report['milestones']['recommended_start_milestone']}`",
         "",
-        "## Planned Milestones",
+        "## Milestone Ranking",
         "",
     ]
+
+    for row in report["milestones"]["summary"]:
+        lines.append(
+            f"- `{row['milestone_id']}` impact={row['impact_score']} "
+            f"(planned={row['planned_count']}, implemented={row['implemented_count']}, "
+            f"completion={row['completion_pct']}%)"
+        )
+
+    lines.extend(["", "## Planned Milestones", ""])
 
     by_milestone: dict[str, list[dict[str, Any]]] = {}
     for item in suggestion_items:
@@ -488,12 +727,7 @@ def render_audit_markdown(report: dict[str, Any]) -> str:
                 lines.append(f"- `{item['id']}` {item['text']} ({source['rel_path']}:{source['line']})")
             lines.append("")
 
-    lines.extend(
-        [
-            "## Implemented Coverage",
-            "",
-        ]
-    )
+    lines.extend(["## Implemented Coverage", ""])
 
     implemented = [item for item in suggestion_items if item["status"] == "implemented"]
     if not implemented:

@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-02-18T14:43:12+00:00",
+  "milestone": "ui-xr-accessibility",
+  "objective": "Strengthen multi-modal UX quality, accessibility, and rendering performance coverage.",
+  "planned_item_count": 76,
+  "selected_item_count": 20,
+  "checkpoints": [
+    "Checkpoint 1: Define scope and baseline metrics for this milestone.",
+    "Checkpoint 2: Implement highest-priority roadmap items with tests.",
+    "Checkpoint 3: Record completion evidence and rerun docs audit."
+  ],
+  "exit_criteria": [
+    "All selected milestone items are implemented or intentionally deferred with rationale.",
+    "Automated tests pass on current branch.",
+    "Docs audit report regenerated with updated milestone status evidence."
+  ],
+  "selected_items": [
+    {
+      "id": "feat-3fb1a8720fde",
+      "text": "Define clear integration architecture, specify performance benchmarking methodology, scope formal verification to critical components only",
+      "priority_score": 10,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 602
+      }
+    },
+    {
+      "id": "feat-7bcfde9fe95d",
+      "text": "Define quantitative success metrics, add community adoption plan, clarify data ownership and sharing policies",
+      "priority_score": 10,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 70
+      }
+    },
+    {
+      "id": "feat-2167fd14db9d",
+      "text": "Position custom UI framework as research contribution, define UX metrics for custom OS platforms, connect to HCI research community",
+      "priority_score": 10,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 508
+      }
+    },
+    {
+      "id": "feat-322eeaa4dd1e",
+      "text": "Specify performance benchmarking framework that applies consistently across all modules",
+      "priority_score": 10,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 671
+      }
+    },
+    {
+      "id": "feat-e7319a4f4400",
+      "text": "Create systematic integration debugging methodology, design simplified demonstration setup, provide platform presentation guidelines",
+      "priority_score": 8,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 641
+      }
+    },
+    {
+      "id": "feat-1aad78b70c1d",
+      "text": "Design scalable repository architecture, specify comprehensive CI/CD for all platform components, add integration failure recovery procedures",
+      "priority_score": 8,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 628
+      }
+    },
+    {
+      "id": "feat-3c73b29268de",
+      "text": "Benchmark monorepo",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+        "line": 224
+      }
+    },
+    {
+      "id": "feat-a2e1b6fd8f1f",
+      "text": "Define clear research contributions, create evaluation metrics for OS/AR/VR performance, position work within existing research landscape",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 581
+      }
+    },
+    {
+      "id": "feat-5baf6c9701a7",
+      "text": "Define learning metrics in grants",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+        "line": 82
+      }
+    },
+    {
+      "id": "feat-8760e2971d97",
+      "text": "Define quantitative platform evaluation metrics, identify comparable research platforms for benchmarking, create research publication and dissemination plan",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 654
+      }
+    },
+    {
+      "id": "feat-e3fedd3ffab2",
+      "text": "Define XR KPIs",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+        "line": 422
+      }
+    },
+    {
+      "id": "feat-077e176fc870",
+      "text": "Develop templates in docs/_templates/performance-script.md for structuring streaming sessions as ritualized scholarship",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/8-grokRespondsAndResponds.md",
+        "line": 36
+      }
+    },
+    {
+      "id": "feat-b8f21af82747",
+      "text": "Ensure AR/VR prototypes are platform\u2011agnostic, with performance benchmarks and hardware notes",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/thread-compilation-report.md",
+        "line": 37
+      }
+    },
+    {
+      "id": "feat-6c1dbfc9883b",
+      "text": "Include quantified KPIs in all proposal narratives",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "implementation/milestones/integration-observability-ci.md",
+        "line": 87
+      }
+    },
+    {
+      "id": "feat-f020b9b6cb1a",
+      "text": "Position observability system as research contribution, define performance benchmarks, connect to systems performance research community",
+      "priority_score": 6,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 435
+      }
+    },
+    {
+      "id": "feat-387ab9f3fb0f",
+      "text": "add a systems diagram illustrating interdisciplinary tie-ins",
+      "priority_score": 5,
+      "source_ref": {
+        "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+        "line": 267
+      }
+    },
+    {
+      "id": "feat-54169863fb70",
+      "text": "Define serialization standards in templates for artifact integration",
+      "priority_score": 5,
+      "source_ref": {
+        "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+        "line": 8
+      }
+    },
+    {
+      "id": "feat-9fc611f516a7",
+      "text": "Design integration architecture that anticipates AR/VR real-time requirements from Module 4 onward",
+      "priority_score": 5,
+      "source_ref": {
+        "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+        "line": 672
+      }
+    },
+    {
+      "id": "feat-edac816fa5f7",
+      "text": "Expand Git topics to cover branching strategies, CI/CD pipelines, and handling large binary assets. Include Git LFS and multi\u2011platform toolchains",
+      "priority_score": 5,
+      "source_ref": {
+        "rel_path": "aiChatsThread/thread-compilation-report.md",
+        "line": 33
+      }
+    },
+    {
+      "id": "feat-d5baf3471a0b",
+      "text": "Expand grants section with societal impact narratives",
+      "priority_score": 5,
+      "source_ref": {
+        "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+        "line": 28
+      }
+    }
+  ]
+}

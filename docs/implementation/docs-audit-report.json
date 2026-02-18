@@ -1,17 +1,17 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-02-18T14:11:24+00:00",
+  "generated_at": "2026-02-18T14:43:12+00:00",
   "root_path": "/Users/4jp/Workspace/organvm-vi-koinonia/adaptive-personal-syllabus/docs",
   "snapshot": {
-    "snapshot_id": 3,
+    "snapshot_id": 9,
     "snapshot_name": "docs-full-audit",
-    "doc_count": 78,
-    "unique_payload_count": 40,
-    "created_at": "2026-02-18T14:11:24+00:00"
+    "doc_count": 82,
+    "unique_payload_count": 44,
+    "created_at": "2026-02-18T14:43:12+00:00"
   },
   "ingest_verification": {
-    "expected_file_count": 78,
-    "snapshot_doc_count": 78,
+    "expected_file_count": 82,
+    "snapshot_doc_count": 82,
     "all_files_ingested": true
   },
   "files": [
@@ -205,6 +205,38 @@
       "sha256": "045f5189b981fe10beef81940d30adb2a02921d05bee8c793f4a6ba0d40c4dd8",
       "size_bytes": 12511,
       "extension": ".md",
+      "is_duplicate_payload": false
+    },
+    {
+      "rel_path": "implementation/milestones/current-execution-plan.json",
+      "canonical_rel_path": "implementation/milestones/current-execution-plan.json",
+      "sha256": "59581e456ac57806512a23c88b82020f73c82cb96fda1cc414f39613285e08c9",
+      "size_bytes": 6202,
+      "extension": ".json",
+      "is_duplicate_payload": false
+    },
+    {
+      "rel_path": "implementation/milestones/current-execution-plan.md",
+      "canonical_rel_path": "implementation/milestones/current-execution-plan.md",
+      "sha256": "e1b99e5578b08bec5430922462c58a9a4e6da56c4a9de711b71f4f3e1038584c",
+      "size_bytes": 3636,
+      "extension": ".md",
+      "is_duplicate_payload": false
+    },
+    {
+      "rel_path": "implementation/milestones/integration-observability-ci.md",
+      "canonical_rel_path": "implementation/milestones/integration-observability-ci.md",
+      "sha256": "88f0ac397bcfda97e952568e841e28c39c978d89fbb6ce584c0d0ed23c3dd939",
+      "size_bytes": 6051,
+      "extension": ".md",
+      "is_duplicate_payload": false
+    },
+    {
+      "rel_path": "implementation/milestones/integration-observability-ci.status.yaml",
+      "canonical_rel_path": "implementation/milestones/integration-observability-ci.status.yaml",
+      "sha256": "da1026c69fc508c533b3b6c12af49aed0b6b5c747f11e71923f8bc61f87bb9ba",
+      "size_bytes": 805,
+      "extension": ".yaml",
       "is_duplicate_payload": false
     },
     {
@@ -641,10 +673,58 @@
     }
   ],
   "suggestions": {
-    "count": 370,
-    "implemented_count": 28,
-    "planned_count": 342,
+    "count": 386,
+    "implemented_count": 58,
+    "planned_count": 328,
     "items": [
+      {
+        "id": "feat-3c32f39c49cd",
+        "normalized_text": "add adoption metrics to the one pager",
+        "text": "Add adoption metrics to the one-pager",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 55
+          }
+        ]
+      },
+      {
+        "id": "feat-d9d025eea02c",
+        "normalized_text": "add ci tests",
+        "text": "Add CI tests",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 224
+          }
+        ]
+      },
+      {
+        "id": "feat-a747d74d9f54",
+        "normalized_text": "add cross discipline outcomes",
+        "text": "Add cross-discipline outcomes",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 82
+          }
+        ]
+      },
       {
         "id": "feat-9928bdf9bc3a",
         "normalized_text": "add cryptographic hashing protocols to the sop for prompt logging",
@@ -678,6 +758,42 @@
         ]
       },
       {
+        "id": "feat-3fe373d691ed",
+        "normalized_text": "add kpis",
+        "text": "Add KPIs",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 163
+          }
+        ]
+      },
+      {
+        "id": "feat-1f6030b916fa",
+        "normalized_text": "add metrics",
+        "text": "Add metrics",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 109
+          },
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 217
+          }
+        ]
+      },
+      {
         "id": "feat-6c85a93222c4",
         "normalized_text": "add screenshots to the sop for prompt logging",
         "text": "Add screenshots to the SOP for prompt logging",
@@ -690,6 +806,38 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 23
+          }
+        ]
+      },
+      {
+        "id": "feat-9f6bf385f44b",
+        "normalized_text": "align explicitly with capstone objectives in the objective statement",
+        "text": "align explicitly with capstone objectives in the objective statement",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 267
+          }
+        ]
+      },
+      {
+        "id": "feat-976396e01283",
+        "normalized_text": "align with grants in simulation sciences",
+        "text": "align with grants in simulation sciences",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 338
           }
         ]
       },
@@ -746,6 +894,54 @@
           {
             "rel_path": "aiChatsThread/8-grokRespondsAndResponds.md",
             "line": 171
+          }
+        ]
+      },
+      {
+        "id": "feat-00edc0765630",
+        "normalized_text": "create feature prioritization frameworks for managing scope during integration phases",
+        "text": "Create feature prioritization frameworks for managing scope during integration phases",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+            "line": 690
+          }
+        ]
+      },
+      {
+        "id": "feat-ffea4a7f1db1",
+        "normalized_text": "create systematic debugging methodologies specific to each module s technology stack",
+        "text": "Create systematic debugging methodologies specific to each module\u2019s technology stack",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+            "line": 677
+          }
+        ]
+      },
+      {
+        "id": "feat-0179c667b65d",
+        "normalized_text": "define boot success metrics",
+        "text": "Define boot success metrics",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 359
           }
         ]
       },
@@ -816,6 +1012,122 @@
         ]
       },
       {
+        "id": "feat-15d19c085e54",
+        "normalized_text": "define key performance indicators kpis and metrics for each module e g log completeness rates ci adoption algorithm performance improvement",
+        "text": "Define key performance indicators (KPIs) and metrics for each module (e.g., log completeness rates, CI adoption, algorithm performance improvement)",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/thread-compilation-report.md",
+            "line": 55
+          }
+        ]
+      },
+      {
+        "id": "feat-5f42112ad978",
+        "normalized_text": "define kpis",
+        "text": "Define KPIs",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 244
+          }
+        ]
+      },
+      {
+        "id": "feat-74740c05b737",
+        "normalized_text": "define kpis such as log completeness rates in the matrix",
+        "text": "Define KPIs such as log completeness rates in the matrix",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 28
+          }
+        ]
+      },
+      {
+        "id": "feat-91ea2930eea1",
+        "normalized_text": "define metrics",
+        "text": "Define metrics",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 136
+          },
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 190
+          }
+        ]
+      },
+      {
+        "id": "feat-855f100f3900",
+        "normalized_text": "define minimum viable platform criteria create integration milestone checkpoints provide feature prioritization framework",
+        "text": "Define minimum viable platform criteria, create integration milestone checkpoints, provide feature prioritization framework",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+            "line": 615
+          }
+        ]
+      },
+      {
+        "id": "feat-6b106e5b235b",
+        "normalized_text": "define module interconnection protocols specify data schemas that evolve across modules add distributed systems considerations",
+        "text": "Define module interconnection protocols, specify data schemas that evolve across modules, add distributed systems considerations",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+            "line": 44
+          }
+        ]
+      },
+      {
+        "id": "feat-194d6286cce9",
+        "normalized_text": "define pre post metrics for recursion understanding",
+        "text": "Define pre/post metrics for recursion understanding",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 317
+          }
+        ]
+      },
+      {
         "id": "feat-d3c47833bfd3",
         "normalized_text": "define productivity metrics add institutional deployment plan highlight novel integration of ai with provenance tracking",
         "text": "Define productivity metrics, add institutional deployment plan, highlight novel integration of AI with provenance tracking",
@@ -828,6 +1140,22 @@
           {
             "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
             "line": 143
+          }
+        ]
+      },
+      {
+        "id": "feat-a17388d1d615",
+        "normalized_text": "define quantitative metrics for evaluating multi modal os performance against existing platforms",
+        "text": "Define quantitative metrics for evaluating multi-modal OS performance against existing platforms",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+            "line": 683
           }
         ]
       },
@@ -882,6 +1210,22 @@
         ]
       },
       {
+        "id": "feat-a001e05bef28",
+        "normalized_text": "design workflows with recursive update mechanisms",
+        "text": "Design workflows with recursive update mechanisms",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 45
+          }
+        ]
+      },
+      {
         "id": "feat-15b5060c062e",
         "normalized_text": "develop character node ai agents in src character nodes with rest apis e g api forrest analyze for real time feedback logged in anthologymanager logs",
         "text": "Develop character node AI agents in src/character-nodes/ with REST APIs (e.g., /api/forrest/analyze) for real-time feedback, logged in anthologymanager/logs/",
@@ -902,6 +1246,26 @@
         ]
       },
       {
+        "id": "feat-7bb3eeabbb20",
+        "normalized_text": "document everything through social media as mythic storytelling",
+        "text": "Document everything through social media as mythic storytelling",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+            "line": 980
+          },
+          {
+            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
+            "line": 1105
+          }
+        ]
+      },
+      {
         "id": "feat-aac8bfaaf5bf",
         "normalized_text": "ensure each module has a clear path for iterative refinement including version control hooks and formal verification for critical components",
         "text": "Ensure each module has a clear path for iterative refinement, including version control hooks and formal verification for critical components",
@@ -914,6 +1278,22 @@
           {
             "rel_path": "aiChatsThread/thread-compilation-report.md",
             "line": 61
+          }
+        ]
+      },
+      {
+        "id": "feat-084bced806d6",
+        "normalized_text": "expand societal benefits",
+        "text": "Expand societal benefits",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 136
           }
         ]
       },
@@ -934,6 +1314,26 @@
         ]
       },
       {
+        "id": "feat-e9c71ea2a6f8",
+        "normalized_text": "include a manifesto in docs recursive methodology md outlining how technical development becomes a public performance of self understanding",
+        "text": "Include a manifesto in docs/recursive-methodology.md outlining how technical development becomes a public performance of self-understanding",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/8-grokRespondsAndResponds.md",
+            "line": 35
+          },
+          {
+            "rel_path": "aiChatsThread/8-grokRespondsAndResponds.md",
+            "line": 181
+          }
+        ]
+      },
+      {
         "id": "feat-edd163212e13",
         "normalized_text": "include benchmarks for ledger performance under high load scenarios",
         "text": "include benchmarks for ledger performance under high-load scenarios",
@@ -946,6 +1346,22 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 259
+          }
+        ]
+      },
+      {
+        "id": "feat-8ff94565c317",
+        "normalized_text": "incorporate outcome metrics into the pitch slide",
+        "text": "Incorporate outcome metrics into the pitch slide",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 28
           }
         ]
       },
@@ -998,6 +1414,22 @@
         ]
       },
       {
+        "id": "feat-cb539293ca37",
+        "normalized_text": "map all dependencies",
+        "text": "Map all dependencies",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 435
+          }
+        ]
+      },
+      {
         "id": "feat-45e838f40590",
         "normalized_text": "map ledger outputs as inputs for later modules in the wiki",
         "text": "Map ledger outputs as inputs for later modules in the wiki",
@@ -1042,6 +1474,22 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 275
+          }
+        ]
+      },
+      {
+        "id": "feat-2f2e93a62079",
+        "normalized_text": "phase milestones",
+        "text": "Phase milestones",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 229
           }
         ]
       },
@@ -1094,6 +1542,22 @@
         ]
       },
       {
+        "id": "feat-c44ce4013f55",
+        "normalized_text": "quantify platform metrics",
+        "text": "Quantify platform metrics",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 443
+          }
+        ]
+      },
+      {
         "id": "feat-f5351516b52e",
         "normalized_text": "reference chainblockark for logging recursive processes",
         "text": "Reference ChainBlockARK for logging recursive processes",
@@ -1106,6 +1570,70 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 309
+          }
+        ]
+      },
+      {
+        "id": "feat-5ba9a6fe7c9c",
+        "normalized_text": "set reliability kpis",
+        "text": "Set reliability KPIs",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 380
+          }
+        ]
+      },
+      {
+        "id": "feat-cfccffcf438b",
+        "normalized_text": "set usage metrics in proposals",
+        "text": "Set usage metrics in proposals",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 338
+          }
+        ]
+      },
+      {
+        "id": "feat-877c7607ca0b",
+        "normalized_text": "specify metrics like time saved in documentation",
+        "text": "Specify metrics like time saved in documentation",
+        "status": "implemented",
+        "implementation_tags": [
+          "milestone.integration-observability-ci"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
+            "line": 296
+          }
+        ]
+      },
+      {
+        "id": "feat-6549f8b5c838",
+        "normalized_text": "tier 4 wings community governance",
+        "text": "Tier 4: wings-community-governance",
+        "status": "implemented",
+        "implementation_tags": [
+          "profile-and-plan-generation"
+        ],
+        "planned_milestone": null,
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 101
           }
         ]
       },
@@ -1176,20 +1704,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 175
-          }
-        ]
-      },
-      {
-        "id": "feat-3c32f39c49cd",
-        "normalized_text": "add adoption metrics to the one pager",
-        "text": "Add adoption metrics to the one-pager",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 55
           }
         ]
       },
@@ -1292,20 +1806,6 @@
         ]
       },
       {
-        "id": "feat-d9d025eea02c",
-        "normalized_text": "add ci tests",
-        "text": "Add CI tests",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 224
-          }
-        ]
-      },
-      {
         "id": "feat-e276093b48e4",
         "normalized_text": "add collaborative design exercises",
         "text": "add collaborative design exercises",
@@ -1386,20 +1886,6 @@
           {
             "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
             "line": 676
-          }
-        ]
-      },
-      {
-        "id": "feat-a747d74d9f54",
-        "normalized_text": "add cross discipline outcomes",
-        "text": "Add cross-discipline outcomes",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 82
           }
         ]
       },
@@ -1566,6 +2052,20 @@
         ]
       },
       {
+        "id": "feat-db422424602c",
+        "normalized_text": "add fields backward compatibly",
+        "text": "add fields backward-compatibly,",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "ui-xr-accessibility",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 59
+          }
+        ]
+      },
+      {
         "id": "feat-fc122b7e31d3",
         "normalized_text": "add fractal diagrams for systems level recursion",
         "text": "add fractal diagrams for systems-level recursion",
@@ -1706,20 +2206,6 @@
         ]
       },
       {
-        "id": "feat-3fe373d691ed",
-        "normalized_text": "add kpis",
-        "text": "Add KPIs",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 163
-          }
-        ]
-      },
-      {
         "id": "feat-e7651511695b",
         "normalized_text": "add low level dsl implementation in c simplify grammar examples design dsl for actual kernel module configuration",
         "text": "Add low-level DSL implementation in C, simplify grammar examples, design DSL for actual kernel module configuration",
@@ -1730,24 +2216,6 @@
           {
             "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
             "line": 237
-          }
-        ]
-      },
-      {
-        "id": "feat-1f6030b916fa",
-        "normalized_text": "add metrics",
-        "text": "Add metrics",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 109
-          },
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 217
           }
         ]
       },
@@ -2046,20 +2514,6 @@
         ]
       },
       {
-        "id": "feat-9f6bf385f44b",
-        "normalized_text": "align explicitly with capstone objectives in the objective statement",
-        "text": "align explicitly with capstone objectives in the objective statement",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 267
-          }
-        ]
-      },
-      {
         "id": "feat-1a48e043f1fe",
         "normalized_text": "align to capstone",
         "text": "align to capstone",
@@ -2084,20 +2538,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 351
-          }
-        ]
-      },
-      {
-        "id": "feat-976396e01283",
-        "normalized_text": "align with grants in simulation sciences",
-        "text": "align with grants in simulation sciences",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 338
           }
         ]
       },
@@ -2456,34 +2896,6 @@
         ]
       },
       {
-        "id": "feat-00edc0765630",
-        "normalized_text": "create feature prioritization frameworks for managing scope during integration phases",
-        "text": "Create feature prioritization frameworks for managing scope during integration phases",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
-            "line": 690
-          }
-        ]
-      },
-      {
-        "id": "feat-ffea4a7f1db1",
-        "normalized_text": "create systematic debugging methodologies specific to each module s technology stack",
-        "text": "Create systematic debugging methodologies specific to each module\u2019s technology stack",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
-            "line": 677
-          }
-        ]
-      },
-      {
         "id": "feat-e7319a4f4400",
         "normalized_text": "create systematic integration debugging methodology design simplified demonstration setup provide platform presentation guidelines",
         "text": "Create systematic integration debugging methodology, design simplified demonstration setup, provide platform presentation guidelines",
@@ -2540,20 +2952,6 @@
         ]
       },
       {
-        "id": "feat-0179c667b65d",
-        "normalized_text": "define boot success metrics",
-        "text": "Define boot success metrics",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 359
-          }
-        ]
-      },
-      {
         "id": "feat-3fb1a8720fde",
         "normalized_text": "define clear integration architecture specify performance benchmarking methodology scope formal verification to critical components only",
         "text": "Define clear integration architecture, specify performance benchmarking methodology, scope formal verification to critical components only",
@@ -2582,48 +2980,6 @@
         ]
       },
       {
-        "id": "feat-15d19c085e54",
-        "normalized_text": "define key performance indicators kpis and metrics for each module e g log completeness rates ci adoption algorithm performance improvement",
-        "text": "Define key performance indicators (KPIs) and metrics for each module (e.g., log completeness rates, CI adoption, algorithm performance improvement)",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/thread-compilation-report.md",
-            "line": 55
-          }
-        ]
-      },
-      {
-        "id": "feat-5f42112ad978",
-        "normalized_text": "define kpis",
-        "text": "Define KPIs",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 244
-          }
-        ]
-      },
-      {
-        "id": "feat-74740c05b737",
-        "normalized_text": "define kpis such as log completeness rates in the matrix",
-        "text": "Define KPIs such as log completeness rates in the matrix",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 28
-          }
-        ]
-      },
-      {
         "id": "feat-5baf6c9701a7",
         "normalized_text": "define learning metrics in grants",
         "text": "Define learning metrics in grants",
@@ -2648,80 +3004,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 275
-          }
-        ]
-      },
-      {
-        "id": "feat-91ea2930eea1",
-        "normalized_text": "define metrics",
-        "text": "Define metrics",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 136
-          },
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 190
-          }
-        ]
-      },
-      {
-        "id": "feat-855f100f3900",
-        "normalized_text": "define minimum viable platform criteria create integration milestone checkpoints provide feature prioritization framework",
-        "text": "Define minimum viable platform criteria, create integration milestone checkpoints, provide feature prioritization framework",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
-            "line": 615
-          }
-        ]
-      },
-      {
-        "id": "feat-6b106e5b235b",
-        "normalized_text": "define module interconnection protocols specify data schemas that evolve across modules add distributed systems considerations",
-        "text": "Define module interconnection protocols, specify data schemas that evolve across modules, add distributed systems considerations",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
-            "line": 44
-          }
-        ]
-      },
-      {
-        "id": "feat-194d6286cce9",
-        "normalized_text": "define pre post metrics for recursion understanding",
-        "text": "Define pre/post metrics for recursion understanding",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 317
-          }
-        ]
-      },
-      {
-        "id": "feat-a17388d1d615",
-        "normalized_text": "define quantitative metrics for evaluating multi modal os performance against existing platforms",
-        "text": "Define quantitative metrics for evaluating multi-modal OS performance against existing platforms",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
-            "line": 683
           }
         ]
       },
@@ -2768,6 +3050,20 @@
         ]
       },
       {
+        "id": "feat-7a5598193eb3",
+        "normalized_text": "define schema evolution policy",
+        "text": "Define schema evolution policy",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "general-backlog",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 57
+          }
+        ]
+      },
+      {
         "id": "feat-54169863fb70",
         "normalized_text": "define serialization standards in templates for artifact integration",
         "text": "Define serialization standards in templates for artifact integration",
@@ -2778,6 +3074,20 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 8
+          }
+        ]
+      },
+      {
+        "id": "feat-0e583213bb43",
+        "normalized_text": "define stable data contracts between phases",
+        "text": "Define stable data contracts between phases",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "general-backlog",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 53
           }
         ]
       },
@@ -3090,20 +3400,6 @@
         ]
       },
       {
-        "id": "feat-a001e05bef28",
-        "normalized_text": "design workflows with recursive update mechanisms",
-        "text": "Design workflows with recursive update mechanisms",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 45
-          }
-        ]
-      },
-      {
         "id": "feat-7717abde88c2",
         "normalized_text": "detail budgets",
         "text": "detail budgets",
@@ -3272,24 +3568,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 351
-          }
-        ]
-      },
-      {
-        "id": "feat-7bb3eeabbb20",
-        "normalized_text": "document everything through social media as mythic storytelling",
-        "text": "Document everything through social media as mythic storytelling",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
-            "line": 980
-          },
-          {
-            "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
-            "line": 1105
           }
         ]
       },
@@ -3620,20 +3898,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 190
-          }
-        ]
-      },
-      {
-        "id": "feat-084bced806d6",
-        "normalized_text": "expand societal benefits",
-        "text": "Expand societal benefits",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 136
           }
         ]
       },
@@ -4000,24 +4264,6 @@
         ]
       },
       {
-        "id": "feat-e9c71ea2a6f8",
-        "normalized_text": "include a manifesto in docs recursive methodology md outlining how technical development becomes a public performance of self understanding",
-        "text": "Include a manifesto in docs/recursive-methodology.md outlining how technical development becomes a public performance of self-understanding",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/8-grokRespondsAndResponds.md",
-            "line": 35
-          },
-          {
-            "rel_path": "aiChatsThread/8-grokRespondsAndResponds.md",
-            "line": 181
-          }
-        ]
-      },
-      {
         "id": "feat-65e0527b471a",
         "normalized_text": "include a self assessment quiz at the module start",
         "text": "Include a self-assessment quiz at the module start",
@@ -4056,6 +4302,20 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 288
+          }
+        ]
+      },
+      {
+        "id": "feat-df706a29d0fd",
+        "normalized_text": "include adoption and documentation time saved metrics as evidence",
+        "text": "Include adoption and documentation time-saved metrics as evidence",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "integration-observability-ci",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 90
           }
         ]
       },
@@ -4158,6 +4418,20 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 305
+          }
+        ]
+      },
+      {
+        "id": "feat-3114f6bc0c3f",
+        "normalized_text": "include explicit simulation research relevance where applicable",
+        "text": "Include explicit simulation/research relevance where applicable",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "ui-xr-accessibility",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 89
           }
         ]
       },
@@ -4302,6 +4576,20 @@
         ]
       },
       {
+        "id": "feat-6c1dbfc9883b",
+        "normalized_text": "include quantified kpis in all proposal narratives",
+        "text": "Include quantified KPIs in all proposal narratives",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "ui-xr-accessibility",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 87
+          }
+        ]
+      },
+      {
         "id": "feat-3b1e83799bac",
         "normalized_text": "include quizzes",
         "text": "Include quizzes",
@@ -4368,6 +4656,20 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 77
+          }
+        ]
+      },
+      {
+        "id": "feat-6c52fa67a9b4",
+        "normalized_text": "include societal benefit language tied to measurable outcomes",
+        "text": "Include societal benefit language tied to measurable outcomes",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "integration-observability-ci",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 88
           }
         ]
       },
@@ -4452,20 +4754,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 263
-          }
-        ]
-      },
-      {
-        "id": "feat-8ff94565c317",
-        "normalized_text": "incorporate outcome metrics into the pitch slide",
-        "text": "Incorporate outcome metrics into the pitch slide",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 28
           }
         ]
       },
@@ -4796,20 +5084,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 301
-          }
-        ]
-      },
-      {
-        "id": "feat-cb539293ca37",
-        "normalized_text": "map all dependencies",
-        "text": "Map all dependencies",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 435
           }
         ]
       },
@@ -5150,6 +5424,48 @@
         ]
       },
       {
+        "id": "feat-58c56dca0c3b",
+        "normalized_text": "phase a baseline metrics scope objective alignment complete",
+        "text": "Phase A (`baseline`): metrics + scope + objective alignment complete",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "integration-observability-ci",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 72
+          }
+        ]
+      },
+      {
+        "id": "feat-877abf838f20",
+        "normalized_text": "phase b verification ci gates and reliability kpis active",
+        "text": "Phase B (`verification`): CI gates and reliability KPIs active",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "integration-observability-ci",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 73
+          }
+        ]
+      },
+      {
+        "id": "feat-23c7f171a1e0",
+        "normalized_text": "phase c publication outcomes packaged for capstone grants and public reporting",
+        "text": "Phase C (`publication`): outcomes packaged for capstone, grants, and public reporting",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "wings-community-governance",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 74
+          }
+        ]
+      },
+      {
         "id": "feat-5fe3fee9b18e",
         "normalized_text": "phase demos",
         "text": "Phase demos",
@@ -5192,20 +5508,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 94
-          }
-        ]
-      },
-      {
-        "id": "feat-2f2e93a62079",
-        "normalized_text": "phase milestones",
-        "text": "Phase milestones",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 229
           }
         ]
       },
@@ -5290,6 +5592,20 @@
           {
             "rel_path": "aiChatsThread/2-onupaway-os-syllabuscritique-claude.md",
             "line": 682
+          }
+        ]
+      },
+      {
+        "id": "feat-e8b294b10d8c",
+        "normalized_text": "prioritize items with score 7 first",
+        "text": "prioritize items with score `>= 7` first,",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "general-backlog",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 29
           }
         ]
       },
@@ -5540,20 +5856,6 @@
         ]
       },
       {
-        "id": "feat-c44ce4013f55",
-        "normalized_text": "quantify platform metrics",
-        "text": "Quantify platform metrics",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 443
-          }
-        ]
-      },
-      {
         "id": "feat-53832c59d6e8",
         "normalized_text": "redesign kernel scheduler for ar vr real time requirements specify neural symbolic architecture clearly create integration roadmap for capstone",
         "text": "Redesign kernel scheduler for AR/VR real-time requirements, specify neural-symbolic architecture clearly, create integration roadmap for capstone",
@@ -5754,34 +6056,6 @@
         ]
       },
       {
-        "id": "feat-5ba9a6fe7c9c",
-        "normalized_text": "set reliability kpis",
-        "text": "Set reliability KPIs",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 380
-          }
-        ]
-      },
-      {
-        "id": "feat-cfccffcf438b",
-        "normalized_text": "set usage metrics in proposals",
-        "text": "Set usage metrics in proposals",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 338
-          }
-        ]
-      },
-      {
         "id": "feat-e04ea5ccc951",
         "normalized_text": "simplify initial mm implementation design filesystem for large media files provide ebpf primer for kernel development",
         "text": "Simplify initial MM implementation, design filesystem for large media files, provide eBPF primer for kernel development",
@@ -5820,20 +6094,6 @@
           {
             "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
             "line": 443
-          }
-        ]
-      },
-      {
-        "id": "feat-877c7607ca0b",
-        "normalized_text": "specify metrics like time saved in documentation",
-        "text": "Specify metrics like time saved in documentation",
-        "status": "planned",
-        "implementation_tags": [],
-        "planned_milestone": "integration-observability-ci",
-        "source_refs": [
-          {
-            "rel_path": "aiChatsThread/01-onupaway-os-syllabuscritique-grok.md",
-            "line": 296
           }
         ]
       },
@@ -5950,6 +6210,62 @@
         ]
       },
       {
+        "id": "feat-7ae225c500a7",
+        "normalized_text": "tier 1 integration observability ci",
+        "text": "Tier 1: integration-observability-ci",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "integration-observability-ci",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 98
+          }
+        ]
+      },
+      {
+        "id": "feat-16ce2083ee9e",
+        "normalized_text": "tier 2 systems kernel runtime pedagogy scaffolding",
+        "text": "Tier 2: systems-kernel-runtime, pedagogy-scaffolding",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "pedagogy-scaffolding",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 99
+          }
+        ]
+      },
+      {
+        "id": "feat-cbb89e07123c",
+        "normalized_text": "tier 3 ui xr accessibility dsl neural symbolic verification",
+        "text": "Tier 3: ui-xr-accessibility, dsl-neural-symbolic-verification",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "dsl-neural-symbolic-verification",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 100
+          }
+        ]
+      },
+      {
+        "id": "feat-c555f5405b59",
+        "normalized_text": "tier 5 general backlog triage",
+        "text": "Tier 5: general-backlog triage",
+        "status": "planned",
+        "implementation_tags": [],
+        "planned_milestone": "general-backlog",
+        "source_refs": [
+          {
+            "rel_path": "implementation/milestones/integration-observability-ci.md",
+            "line": 102
+          }
+        ]
+      },
+      {
         "id": "feat-e0d2d717b408",
         "normalized_text": "tier the reading list with annotations for beginner intermediate and advanced paths",
         "text": "Tier the reading list with annotations for beginner, intermediate, and advanced paths",
@@ -6025,5 +6341,80 @@
         ]
       }
     ]
+  },
+  "milestones": {
+    "summary": [
+      {
+        "milestone_id": "ui-xr-accessibility",
+        "planned_count": 74,
+        "implemented_count": 0,
+        "total_count": 74,
+        "impact_weight": 3,
+        "impact_score": 222,
+        "completion_pct": 0.0,
+        "objective": "Strengthen multi-modal UX quality, accessibility, and rendering performance coverage."
+      },
+      {
+        "milestone_id": "pedagogy-scaffolding",
+        "planned_count": 51,
+        "implemented_count": 0,
+        "total_count": 51,
+        "impact_weight": 4,
+        "impact_score": 204,
+        "completion_pct": 0.0,
+        "objective": "Improve learning scaffolding via guided exercises, checkpoints, and diagnostics."
+      },
+      {
+        "milestone_id": "general-backlog",
+        "planned_count": 155,
+        "implemented_count": 0,
+        "total_count": 155,
+        "impact_weight": 1,
+        "impact_score": 155,
+        "completion_pct": 0.0,
+        "objective": "Triage and route uncategorized actionables into concrete implementation milestones."
+      },
+      {
+        "milestone_id": "integration-observability-ci",
+        "planned_count": 14,
+        "implemented_count": 29,
+        "total_count": 43,
+        "impact_weight": 10,
+        "impact_score": 140,
+        "completion_pct": 67.44,
+        "objective": "Establish measurable integration checkpoints, reliable CI quality gates, and quantitative KPI tracking for roadmap execution."
+      },
+      {
+        "milestone_id": "systems-kernel-runtime",
+        "planned_count": 17,
+        "implemented_count": 0,
+        "total_count": 17,
+        "impact_weight": 4,
+        "impact_score": 68,
+        "completion_pct": 0.0,
+        "objective": "Advance kernel/runtime implementation safety and observability readiness."
+      },
+      {
+        "milestone_id": "dsl-neural-symbolic-verification",
+        "planned_count": 11,
+        "implemented_count": 0,
+        "total_count": 11,
+        "impact_weight": 3,
+        "impact_score": 33,
+        "completion_pct": 0.0,
+        "objective": "Harden DSL and neural-symbolic tracks with reproducible validation paths."
+      },
+      {
+        "milestone_id": "wings-community-governance",
+        "planned_count": 6,
+        "implemented_count": 0,
+        "total_count": 6,
+        "impact_weight": 2,
+        "impact_score": 12,
+        "completion_pct": 0.0,
+        "objective": "Operationalize Wings/public scholarship/governance with measurable outputs."
+      }
+    ],
+    "recommended_start_milestone": "ui-xr-accessibility"
   }
 }

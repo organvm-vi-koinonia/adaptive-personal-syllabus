@@ -1,17 +1,28 @@
 # Docs Audit Report
 
-- Generated at: `2026-02-18T14:11:24+00:00`
+- Generated at: `2026-02-18T14:43:12+00:00`
 - Root: `/Users/4jp/Workspace/organvm-vi-koinonia/adaptive-personal-syllabus/docs`
-- Snapshot: `docs-full-audit` (id=3)
-- Files discovered: `78`
-- Files ingested: `78`
+- Snapshot: `docs-full-audit` (id=9)
+- Files discovered: `82`
+- Files ingested: `82`
 - Ingest complete: `True`
 
 ## Suggestions Summary
 
-- Total suggestions: `370`
-- Implemented: `28`
-- Planned: `342`
+- Total suggestions: `386`
+- Implemented: `58`
+- Planned: `328`
+- Recommended start milestone: `ui-xr-accessibility`
+
+## Milestone Ranking
+
+- `ui-xr-accessibility` impact=222 (planned=74, implemented=0, completion=0.0%)
+- `pedagogy-scaffolding` impact=204 (planned=51, implemented=0, completion=0.0%)
+- `general-backlog` impact=155 (planned=155, implemented=0, completion=0.0%)
+- `integration-observability-ci` impact=140 (planned=14, implemented=29, completion=67.44%)
+- `systems-kernel-runtime` impact=68 (planned=17, implemented=0, completion=0.0%)
+- `dsl-neural-symbolic-verification` impact=33 (planned=11, implemented=0, completion=0.0%)
+- `wings-community-governance` impact=12 (planned=6, implemented=0, completion=0.0%)
 
 ## Planned Milestones
 
@@ -26,6 +37,7 @@
 - `feat-47545a0b4865` Link DSL templates to Git metadata (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:330)
 - `feat-3bcf0504e75f` Map DSL to capstone (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:99)
 - `feat-e48d8d05b401` Position as novel OS-level configuration research, define DSL evaluation metrics, connect to systems conferences and workshops (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:289)
+- `feat-cbb89e07123c` Tier 3: ui-xr-accessibility, dsl-neural-symbolic-verification (implementation/milestones/integration-observability-ci.md:100)
 
 ### general-backlog
 - `feat-fd7eb791867f` Add activities (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:175)
@@ -70,6 +82,8 @@
 - `feat-493d811475cb` create unified diagrams for language tie-ins (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:330)
 - `feat-c8ffa0ff2286` cross-platform alternatives (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:410)
 - `feat-59943cb09c45` Define measurable outcomes, e.g., number of logged interactions per user (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:275)
+- `feat-7a5598193eb3` Define schema evolution policy (implementation/milestones/integration-observability-ci.md:57)
+- `feat-0e583213bb43` Define stable data contracts between phases (implementation/milestones/integration-observability-ci.md:53)
 - `feat-45a53c9579c1` define test pass criteria (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:347)
 - `feat-c63e67b5f510` Design chaining mechanisms (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:99)
 - `feat-39db6cb4b99f` Design Concepts in Programming Languages (Ch. 3) (OnUpAway-Syllabus.md.md:177)
@@ -161,6 +175,7 @@
 - `feat-c62456d88149` outline tool costs (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:359)
 - `feat-5fe3fee9b18e` Phase demos (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:175)
 - `feat-2eb00054e381` Phase implementations (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:148)
+- `feat-e8b294b10d8c` prioritize items with score `>= 7` first, (implementation/milestones/integration-observability-ci.md:29)
 - `feat-909d6e5abc25` provide abstracts for deep dives (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:355)
 - `feat-172f4ede22d3` Provide alternatives (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:143)
 - `feat-c71afbc36eea` provide brief abstracts or hyperlinks for further studies resources (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:271)
@@ -178,47 +193,24 @@
 - `feat-f8e1625e8f5d` Set a timer for 10 minutes and write nonstop without deleting anything (narrative-workbook/Here are some structured writing exercises and activities that will….md:26)
 - `feat-74b658a2e3a4` Set a word count goal, not a quality goal (e.g., “Write 500 words, no matter what”) (narrative-workbook/Got it. Here’s a full breakdown of writing structures, along with….md:32)
 - `feat-d1986c601811` Simplify with visuals (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:376)
+- `feat-c555f5405b59` Tier 5: general-backlog triage (implementation/milestones/integration-observability-ci.md:102)
 - `feat-e0d2d717b408` Tier the reading list with annotations for beginner, intermediate, and advanced paths (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:13)
 
 ### integration-observability-ci
-- `feat-3c32f39c49cd` Add adoption metrics to the one-pager (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:55)
-- `feat-d9d025eea02c` Add CI tests (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:224)
-- `feat-a747d74d9f54` Add cross-discipline outcomes (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:82)
-- `feat-3fe373d691ed` Add KPIs (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:163)
-- `feat-1f6030b916fa` Add metrics (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:109)
-- `feat-9f6bf385f44b` align explicitly with capstone objectives in the objective statement (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:267)
-- `feat-976396e01283` align with grants in simulation sciences (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:338)
 - `feat-903117882765` Break projects into phased milestones (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:67)
-- `feat-00edc0765630` Create feature prioritization frameworks for managing scope during integration phases (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:690)
-- `feat-ffea4a7f1db1` Create systematic debugging methodologies specific to each module’s technology stack (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:677)
-- `feat-0179c667b65d` Define boot success metrics (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:359)
-- `feat-15d19c085e54` Define key performance indicators (KPIs) and metrics for each module (e.g., log completeness rates, CI adoption, algorithm performance improvement) (aiChatsThread/thread-compilation-report.md:55)
-- `feat-5f42112ad978` Define KPIs (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:244)
-- `feat-74740c05b737` Define KPIs such as log completeness rates in the matrix (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:28)
-- `feat-91ea2930eea1` Define metrics (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:136)
-- `feat-855f100f3900` Define minimum viable platform criteria, create integration milestone checkpoints, provide feature prioritization framework (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:615)
-- `feat-6b106e5b235b` Define module interconnection protocols, specify data schemas that evolve across modules, add distributed systems considerations (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:44)
-- `feat-194d6286cce9` Define pre/post metrics for recursion understanding (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:317)
-- `feat-a17388d1d615` Define quantitative metrics for evaluating multi-modal OS performance against existing platforms (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:683)
-- `feat-a001e05bef28` Design workflows with recursive update mechanisms (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:45)
-- `feat-7bb3eeabbb20` Document everything through social media as mythic storytelling (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:980)
-- `feat-084bced806d6` Expand societal benefits (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:136)
 - `feat-ba7b772da131` frame HCI (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:401)
-- `feat-e9c71ea2a6f8` Include a manifesto in docs/recursive-methodology.md outlining how technical development becomes a public performance of self-understanding (aiChatsThread/8-grokRespondsAndResponds.md:35)
+- `feat-df706a29d0fd` Include adoption and documentation time-saved metrics as evidence (implementation/milestones/integration-observability-ci.md:90)
 - `feat-066be45980e7` Include environment-specific configurations in examples (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:35)
 - `feat-e092cdbfac89` Include humanities-specific examples in the templates (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:23)
-- `feat-8ff94565c317` Incorporate outcome metrics into the pitch slide (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:28)
-- `feat-cb539293ca37` Map all dependencies (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:435)
+- `feat-6c52fa67a9b4` Include societal benefit language tied to measurable outcomes (implementation/milestones/integration-observability-ci.md:88)
 - `feat-6991f578c1ae` Map to capstone integration in the wiki (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:45)
-- `feat-2f2e93a62079` Phase milestones (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:229)
-- `feat-c44ce4013f55` Quantify platform metrics (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:443)
+- `feat-58c56dca0c3b` Phase A (`baseline`): metrics + scope + objective alignment complete (implementation/milestones/integration-observability-ci.md:72)
+- `feat-877abf838f20` Phase B (`verification`): CI gates and reliability KPIs active (implementation/milestones/integration-observability-ci.md:73)
 - `feat-760153f2bd74` Reference specific grants (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:109)
-- `feat-5ba9a6fe7c9c` Set reliability KPIs (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:380)
-- `feat-cfccffcf438b` Set usage metrics in proposals (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:338)
 - `feat-fafaca5a437b` specify impacts (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:443)
-- `feat-877c7607ca0b` Specify metrics like time saved in documentation (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:296)
 - `feat-e54dfd9527a9` specify resource allocations in grant outlines (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:317)
 - `feat-031dba533de7` tailor impact statements to agencies like NSF (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:296)
+- `feat-7ae225c500a7` Tier 1: integration-observability-ci (implementation/milestones/integration-observability-ci.md:98)
 
 ### pedagogy-scaffolding
 - `feat-efa712f05280` Add a beginner Git tutorial link (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:40)
@@ -271,6 +263,7 @@
 - `feat-8c63caa7d9f8` provide test-driven development tutorials (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:326)
 - `feat-7431657d93db` rubrics for demos (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:410)
 - `feat-e04ea5ccc951` Simplify initial MM implementation, design filesystem for large media files, provide eBPF primer for kernel development (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:383)
+- `feat-16ce2083ee9e` Tier 2: systems-kernel-runtime, pedagogy-scaffolding (implementation/milestones/integration-observability-ci.md:99)
 
 ### systems-kernel-runtime
 - `feat-fc7e14db25d1` Add conceptual bridge from kernel services to UI frameworks, focus on fewer UI paradigms with deeper implementation, connect UI performance to kernel design decisions (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:469)
@@ -299,6 +292,7 @@
 - `feat-5dcbdea18f10` Add common error guides (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:355)
 - `feat-0ab52dd3803f` Add cross-references to Module 0 artifacts (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:288)
 - `feat-24fc955739d6` add error guides (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:376)
+- `feat-db422424602c` add fields backward-compatibly, (implementation/milestones/integration-observability-ci.md:59)
 - `feat-8cddba515ba9` Add guided questions to reading critiques (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:67)
 - `feat-582970029318` Add guides (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:239)
 - `feat-ce6cd9c749d7` Add robust parsing error handling (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:322)
@@ -338,8 +332,10 @@
 - `feat-b85bca0bfb8c` Include a setup checklist with required tools (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:271)
 - `feat-36b227c2e5b8` include a systems overview diagram for interdisciplinary connections (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:288)
 - `feat-02602afb88de` include case studies showing interdisciplinary impact (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:275)
+- `feat-3114f6bc0c3f` Include explicit simulation/research relevance where applicable (implementation/milestones/integration-observability-ci.md:89)
 - `feat-2542d903cfb9` Include hardware notes (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:197)
 - `feat-af0a4c8e83d1` Include narratives (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:212)
+- `feat-6c1dbfc9883b` Include quantified KPIs in all proposal narratives (implementation/milestones/integration-observability-ci.md:87)
 - `feat-061a7026a5ea` include sections on repo sharing for grant collaborations (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:296)
 - `feat-af156984e65d` Include setup guides in templates (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:77)
 - `feat-68968694f93d` Include test guides (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:104)
@@ -368,39 +364,70 @@
 - `feat-240bbc90abe0` Create diagrams illustrating how modules interconnect; maintain a system overview in the wiki (aiChatsThread/thread-compilation-report.md:47)
 - `feat-978393f33636` Document the evolution of recursive academic methods (aiChatsThread/7-bowout-claude.md:104)
 - `feat-c3c6fc547a9b` Map to capstone in the wiki (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:72)
+- `feat-23c7f171a1e0` Phase C (`publication`): outcomes packaged for capstone, grants, and public reporting (implementation/milestones/integration-observability-ci.md:74)
 - `feat-3f9775c0b284` Reference grants (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:190)
 - `feat-3a1b2baca9cd` Reference NSF education grants (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:82)
 
 ## Implemented Coverage
 
+- `feat-3c32f39c49cd` Add adoption metrics to the one-pager [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:55)
+- `feat-d9d025eea02c` Add CI tests [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:224)
+- `feat-a747d74d9f54` Add cross-discipline outcomes [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:82)
 - `feat-9928bdf9bc3a` Add cryptographic hashing protocols to the SOP for prompt logging [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:8)
 - `feat-1931b2ac0a24` Add JSON schema validation to templates [corpus.ingest-and-dedup] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:35)
+- `feat-3fe373d691ed` Add KPIs [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:163)
+- `feat-1f6030b916fa` Add metrics [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:109)
 - `feat-6c85a93222c4` Add screenshots to the SOP for prompt logging [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:23)
+- `feat-9f6bf385f44b` align explicitly with capstone objectives in the objective statement [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:267)
+- `feat-976396e01283` align with grants in simulation sciences [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:338)
 - `feat-493ffc1cbf4f` Build ChainBlockARK as actual RE:GE engine, not logging tool [ledger.hash-chain-and-provenance] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:886)
 - `feat-647ec3e1c785` Create a dependency graph showing how ChainBlockARK artifacts support subsequent modules [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:267)
 - `feat-44683c640468` Create a Genealogy Engine in anthologymanager/scripts/genealogy.py to map artifact lineages, using JSON schemas (e.g., genealogy-schema.json) for traceability [corpus.ingest-and-dedup] (aiChatsThread/8-grokRespondsAndResponds.md:25)
+- `feat-00edc0765630` Create feature prioritization frameworks for managing scope during integration phases [milestone.integration-observability-ci] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:690)
+- `feat-ffea4a7f1db1` Create systematic debugging methodologies specific to each module’s technology stack [milestone.integration-observability-ci] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:677)
+- `feat-0179c667b65d` Define boot success metrics [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:359)
 - `feat-ec1908569009` Define comprehensive data schemas that evolve from Module 0 ChainBlockARK through Capstone integration [ledger.hash-chain-and-provenance] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:670)
 - `feat-2dbb84aee629` Define JSON Schema: Create `chainblockark/template-change-record.json` with versioned fields for prompt text, timestamp, user, and metadata. Validate using a JSON Schema validator [corpus.ingest-and-dedup, ledger.hash-chain-and-provenance] (source-materials/theory/os-syllabus-v3.md:29)
 - `feat-8ea776813a83` define JSON schemas for metadata tags [corpus.ingest-and-dedup] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:280)
 - `feat-cd626846352b` Define JSON schemas, cryptographic hashes, and API endpoints for the ledger. Add formal validation and benchmarking to ensure large‑scale logging remains performant [corpus.ingest-and-dedup, ledger.hash-chain-and-provenance] (aiChatsThread/thread-compilation-report.md:32)
+- `feat-15d19c085e54` Define key performance indicators (KPIs) and metrics for each module (e.g., log completeness rates, CI adoption, algorithm performance improvement) [milestone.integration-observability-ci] (aiChatsThread/thread-compilation-report.md:55)
+- `feat-5f42112ad978` Define KPIs [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:244)
+- `feat-74740c05b737` Define KPIs such as log completeness rates in the matrix [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:28)
+- `feat-91ea2930eea1` Define metrics [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:136)
+- `feat-855f100f3900` Define minimum viable platform criteria, create integration milestone checkpoints, provide feature prioritization framework [milestone.integration-observability-ci] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:615)
+- `feat-6b106e5b235b` Define module interconnection protocols, specify data schemas that evolve across modules, add distributed systems considerations [milestone.integration-observability-ci] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:44)
+- `feat-194d6286cce9` Define pre/post metrics for recursion understanding [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:317)
 - `feat-d3c47833bfd3` Define productivity metrics, add institutional deployment plan, highlight novel integration of AI with provenance tracking [ledger.hash-chain-and-provenance] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:143)
+- `feat-a17388d1d615` Define quantitative metrics for evaluating multi-modal OS performance against existing platforms [milestone.integration-observability-ci] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:683)
 - `feat-6a4d8e6215b0` Define REST/GraphQL endpoints, specify JSON schema with versioning, add performance benchmarks for ledger writes [corpus.ingest-and-dedup, ledger.hash-chain-and-provenance] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:18)
 - `feat-9fbf4645d850` Design boot-time logging hooks, plan kernel architecture for multimedia support, specify scheduler requirements for real-time AR/VR [chamber-hook-extension-points, ledger.hash-chain-and-provenance] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:336)
 - `feat-e7807f22b44c` Design recursive logging patterns for ChainBlockARK, create kernel algorithm integration examples, add recursive debugging strategies [ledger.hash-chain-and-provenance] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:190)
+- `feat-a001e05bef28` Design workflows with recursive update mechanisms [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:45)
 - `feat-15b5060c062e` Develop character node AI agents in src/character-nodes/ with REST APIs (e.g., /api/forrest/analyze) for real-time feedback, logged in anthologymanager/logs/ [chamber-hook-extension-points] (aiChatsThread/8-grokRespondsAndResponds.md:46)
+- `feat-7bb3eeabbb20` Document everything through social media as mythic storytelling [milestone.integration-observability-ci] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:980)
 - `feat-aac8bfaaf5bf` Ensure each module has a clear path for iterative refinement, including version control hooks and formal verification for critical components [chamber-hook-extension-points] (aiChatsThread/thread-compilation-report.md:61)
+- `feat-084bced806d6` Expand societal benefits [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:136)
 - `feat-799f609f3e72` Implement API Endpoints: Build a REST or GraphQL API for ledger writes and queries. Document endpoints in `docs/chainblockark-api.md` and test performance benchmarks (e.g., 1 000 writes/second) [ledger.hash-chain-and-provenance] (source-materials/theory/os-syllabus-v3.md:30)
+- `feat-e9c71ea2a6f8` Include a manifesto in docs/recursive-methodology.md outlining how technical development becomes a public performance of self-understanding [milestone.integration-observability-ci] (aiChatsThread/8-grokRespondsAndResponds.md:35)
 - `feat-edd163212e13` include benchmarks for ledger performance under high-load scenarios [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:259)
+- `feat-8ff94565c317` Incorporate outcome metrics into the pitch slide [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:28)
 - `feat-df95797af864` Incorporate scalability benchmarks for ledger growth in examples [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:8)
 - `feat-66b9d0e15c72` Integrate cryptographic hashing for ledger entries to enhance security [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:259)
 - `feat-db7df5ce739b` Link repo metadata to ChainBlockARK logs [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:45)
+- `feat-cb539293ca37` Map all dependencies [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:435)
 - `feat-45e838f40590` Map ledger outputs as inputs for later modules in the wiki [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:18)
 - `feat-ecbb63d91440` Map outputs from each module to inputs of later ones. For example, link ChainBlockARK logs to repository metadata, algorithm performance logs, and kernel debug traces [ledger.hash-chain-and-provenance] (aiChatsThread/thread-compilation-report.md:45)
 - `feat-d2c213539746` outline resource needs in the wings artifacts for grant budgeting [profile-and-plan-generation] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:275)
+- `feat-2f2e93a62079` Phase milestones [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:229)
 - `feat-668fcfc43696` profile DSL execution for bottlenecks [profile-and-plan-generation] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:322)
 - `feat-c0429fb42afb` profile mobile media [profile-and-plan-generation] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:385)
 - `feat-12a204eb34b7` Provide context-switching guides, create unified asset management strategy, add UI/kernel debugging methodology [profile-and-plan-generation] (aiChatsThread/2-onupaway-os-syllabuscritique-claude.md:495)
+- `feat-c44ce4013f55` Quantify platform metrics [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:443)
 - `feat-f5351516b52e` Reference ChainBlockARK for logging recursive processes [ledger.hash-chain-and-provenance] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:309)
+- `feat-5ba9a6fe7c9c` Set reliability KPIs [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:380)
+- `feat-cfccffcf438b` Set usage metrics in proposals [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:338)
+- `feat-877c7607ca0b` Specify metrics like time saved in documentation [milestone.integration-observability-ci] (aiChatsThread/01-onupaway-os-syllabuscritique-grok.md:296)
+- `feat-6549f8b5c838` Tier 4: wings-community-governance [profile-and-plan-generation] (implementation/milestones/integration-observability-ci.md:101)
 
 ## Use-Cases
 
