@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-02-17
+
+### Added
+- **AQUA COMMUNIS sprint** — CLI and DB generator test coverage
+- `tests/test_db_generator.py` — 5 tests: URL normalization, passthrough, psycopg, empty taxonomy, data build
+- `tests/test_cli.py` — 5 tests: version, text/json/md format, missing organs error
+- Test count: 9 → 19 (+10)
+
 ## [0.3.0] - 2026-02-17
 
 ### Added
