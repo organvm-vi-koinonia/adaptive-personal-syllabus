@@ -67,17 +67,17 @@ It belongs to **ORGAN VI (Community)** under the `organvm-vi-koinonia` GitHub or
 ## System Context (auto-generated — do not edit)
 
 **Organ:** ORGAN-VI (Community) | **Tier:** standard | **Status:** CANDIDATE
-**Org:** `organvm-vi-koinonia` | **Repo:** `adaptive-personal-syllabus`
+**Org:** `unknown` | **Repo:** `adaptive-personal-syllabus`
 
 ### Edges
-- **Produces** → `learning_path`: Personalized learning paths based on organ interests and difficulty level
-- **Consumes** ← `koinonia-db`: Shared database models, taxonomy, and reading data
+- **Produces** → `unknown`: unknown
+- **Consumes** ← `unknown`: unknown
 
 ### Siblings in Community
-`community-hub` (flagship), `koinonia-db`, `salon-archive`, `reading-group-curriculum`, `.github`
+`koinonia-db`, `community-hub`, `salon-archive`, `reading-group-curriculum`, `.github`
 
 ### Governance
-- Community infrastructure layer. Consumes from ORGAN-I, II, III. No back-edges.
+- *Standard ORGANVM governance applies*
 
-*Last synced: 2026-02-24T12:00:00Z*
+*Last synced: 2026-02-24T12:41:28Z*
 <!-- ORGANVM:AUTO:END -->

@@ -1,0 +1,552 @@
+[
+  {
+    "path_id": "493876cd",
+    "title": "Learning Path: I, V",
+    "total_hours": 18.0,
+    "module_count": 9,
+    "learner": {
+      "name": "Beginner Explorer",
+      "organs_of_interest": [
+        "I",
+        "V"
+      ],
+      "level": "beginner"
+    },
+    "modules": [
+      {
+        "module_id": "i-recursive-systems-beg",
+        "title": "Recursive Systems",
+        "organ": "i-theoria",
+        "difficulty": "beginner",
+        "readings": [
+          "G\u00f6del, Escher, Bach \u2014 Ch. 1: The MU-puzzle",
+          "G\u00f6del, Escher, Bach \u2014 Ch. 6: The Location of Meaning",
+          "recursive-engine \u2014 Generative Entity Architecture"
+        ],
+        "questions": [
+          "What is the core idea behind Recursive Systems?",
+          "How does Recursive Systems connect to ORGAN-I Theoria?",
+          "What would you build or explore using Recursive Systems?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "i-ontology-beg",
+        "title": "Ontology",
+        "organ": "i-theoria",
+        "difficulty": "beginner",
+        "readings": [
+          "The Tree of Knowledge \u2014 Ch. 1: Knowing How We Know"
+        ],
+        "questions": [
+          "What is the core idea behind Ontology?",
+          "How does Ontology connect to ORGAN-I Theoria?",
+          "What would you build or explore using Ontology?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "i-epistemology-beg",
+        "title": "Epistemology",
+        "organ": "i-theoria",
+        "difficulty": "beginner",
+        "readings": [
+          "G\u00f6del, Escher, Bach \u2014 Ch. 1: The MU-puzzle",
+          "G\u00f6del, Escher, Bach \u2014 Ch. 6: The Location of Meaning",
+          "The Tree of Knowledge \u2014 Ch. 1: Knowing How We Know"
+        ],
+        "questions": [
+          "What is the core idea behind Epistemology?",
+          "How does Epistemology connect to ORGAN-I Theoria?",
+          "What would you build or explore using Epistemology?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "i-cognitive-archaeology-beg",
+        "title": "Cognitive Archaeology",
+        "organ": "i-theoria",
+        "difficulty": "beginner",
+        "readings": [
+          "cog-init-1.0 \u2014 Cognitive Initialization Framework"
+        ],
+        "questions": [
+          "What is the core idea behind Cognitive Archaeology?",
+          "How does Cognitive Archaeology connect to ORGAN-I Theoria?",
+          "What would you build or explore using Cognitive Archaeology?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "i-alchemical-frameworks-beg",
+        "title": "Alchemical Frameworks",
+        "organ": "i-theoria",
+        "difficulty": "beginner",
+        "readings": [
+          "G\u00f6del, Escher, Bach \u2014 Ch. 1: The MU-puzzle",
+          "G\u00f6del, Escher, Bach \u2014 Ch. 6: The Location of Meaning",
+          "The Tree of Knowledge \u2014 Ch. 1: Knowing How We Know"
+        ],
+        "questions": [
+          "What is the core idea behind Alchemical Frameworks?",
+          "How does Alchemical Frameworks connect to ORGAN-I Theoria?",
+          "What would you build or explore using Alchemical Frameworks?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "v-essays-beg",
+        "title": "Essays",
+        "organ": "v-logos",
+        "difficulty": "beginner",
+        "readings": [
+          "Essay 01: Orchestrating a Living System",
+          "Essay 02: Governance as Creative Constraint",
+          "Essay 03: Portfolio as Practice"
+        ],
+        "questions": [
+          "What is the core idea behind Essays?",
+          "How does Essays connect to ORGAN-V Logos?",
+          "What would you build or explore using Essays?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "v-methodology-beg",
+        "title": "Methodology",
+        "organ": "v-logos",
+        "difficulty": "beginner",
+        "readings": [
+          "Essay 09: Uniform Quality at Scale",
+          "Essay 10: The Conductor Model in Practice"
+        ],
+        "questions": [
+          "What is the core idea behind Methodology?",
+          "How does Methodology connect to ORGAN-V Logos?",
+          "What would you build or explore using Methodology?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "v-building-in-public-beg",
+        "title": "Building in Public",
+        "organ": "v-logos",
+        "difficulty": "beginner",
+        "readings": [
+          "Working in Public \u2014 Ch. 1: GitHub as a Platform",
+          "Essay 04: Building in Public"
+        ],
+        "questions": [
+          "What is the core idea behind Building in Public?",
+          "How does Building in Public connect to ORGAN-V Logos?",
+          "What would you build or explore using Building in Public?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "v-case-studies-beg",
+        "title": "Case Studies",
+        "organ": "v-logos",
+        "difficulty": "beginner",
+        "readings": [
+          "Working in Public \u2014 Ch. 1: GitHub as a Platform",
+          "Essay 01: Orchestrating a Living System",
+          "Essay 02: Governance as Creative Constraint"
+        ],
+        "questions": [
+          "What is the core idea behind Case Studies?",
+          "How does Case Studies connect to ORGAN-V Logos?",
+          "What would you build or explore using Case Studies?"
+        ],
+        "estimated_hours": 2.0
+      }
+    ]
+  },
+  {
+    "path_id": "1395ab5a",
+    "title": "Learning Path: II, III",
+    "total_hours": 20.0,
+    "module_count": 10,
+    "learner": {
+      "name": "Intermediate Practitioner",
+      "organs_of_interest": [
+        "II",
+        "III"
+      ],
+      "level": "intermediate"
+    },
+    "modules": [
+      {
+        "module_id": "ii-generative-music-int",
+        "title": "Generative Music",
+        "organ": "ii-poiesis",
+        "difficulty": "intermediate",
+        "readings": [
+          "Alchemical Synthesizer \u2014 Modular Synthesis System"
+        ],
+        "questions": [
+          "What is the core idea behind Generative Music?",
+          "How does Generative Music connect to ORGAN-II Poiesis?",
+          "What would you build or explore using Generative Music?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "ii-visual-art-int",
+        "title": "Visual Art",
+        "organ": "ii-poiesis",
+        "difficulty": "intermediate",
+        "readings": [
+          "Surfaces and Essences \u2014 Ch. 2: The Evocation of Concepts",
+          "Art from Auto-Revision Epistemic Engine",
+          "metasystem-master \u2014 Creative Infrastructure Architecture"
+        ],
+        "questions": [
+          "What is the core idea behind Visual Art?",
+          "How does Visual Art connect to ORGAN-II Poiesis?",
+          "What would you build or explore using Visual Art?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "ii-performance-int",
+        "title": "Performance",
+        "organ": "ii-poiesis",
+        "difficulty": "intermediate",
+        "readings": [
+          "Surfaces and Essences \u2014 Ch. 2: The Evocation of Concepts",
+          "Art from Auto-Revision Epistemic Engine",
+          "metasystem-master \u2014 Creative Infrastructure Architecture"
+        ],
+        "questions": [
+          "What is the core idea behind Performance?",
+          "How does Performance connect to ORGAN-II Poiesis?",
+          "What would you build or explore using Performance?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "ii-interactive-installation-int",
+        "title": "Interactive Installation",
+        "organ": "ii-poiesis",
+        "difficulty": "intermediate",
+        "readings": [
+          "Surfaces and Essences \u2014 Ch. 2: The Evocation of Concepts",
+          "Art from Auto-Revision Epistemic Engine",
+          "metasystem-master \u2014 Creative Infrastructure Architecture"
+        ],
+        "questions": [
+          "What is the core idea behind Interactive Installation?",
+          "How does Interactive Installation connect to ORGAN-II Poiesis?",
+          "What would you build or explore using Interactive Installation?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "ii-ai-collaboration-int",
+        "title": "AI Collaboration",
+        "organ": "ii-poiesis",
+        "difficulty": "intermediate",
+        "readings": [
+          "metasystem-master \u2014 Creative Infrastructure Architecture"
+        ],
+        "questions": [
+          "What is the core idea behind AI Collaboration?",
+          "How does AI Collaboration connect to ORGAN-II Poiesis?",
+          "What would you build or explore using AI Collaboration?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "iii-saas-products-int",
+        "title": "SaaS Products",
+        "organ": "iii-ergon",
+        "difficulty": "intermediate",
+        "readings": [
+          "Public Record Data Scrapper"
+        ],
+        "questions": [
+          "What is the core idea behind SaaS Products?",
+          "How does SaaS Products connect to ORGAN-III Ergon?",
+          "What would you build or explore using SaaS Products?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "iii-data-tools-int",
+        "title": "Data Tools",
+        "organ": "iii-ergon",
+        "difficulty": "intermediate",
+        "readings": [
+          "Public Record Data Scrapper"
+        ],
+        "questions": [
+          "What is the core idea behind Data Tools?",
+          "How does Data Tools connect to ORGAN-III Ergon?",
+          "What would you build or explore using Data Tools?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "iii-gaming-int",
+        "title": "Gaming",
+        "organ": "iii-ergon",
+        "difficulty": "intermediate",
+        "readings": [
+          "Public Record Data Scrapper"
+        ],
+        "questions": [
+          "What is the core idea behind Gaming?",
+          "How does Gaming connect to ORGAN-III Ergon?",
+          "What would you build or explore using Gaming?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "iii-social-platforms-int",
+        "title": "Social Platforms",
+        "organ": "iii-ergon",
+        "difficulty": "intermediate",
+        "readings": [
+          "Public Record Data Scrapper"
+        ],
+        "questions": [
+          "What is the core idea behind Social Platforms?",
+          "How does Social Platforms connect to ORGAN-III Ergon?",
+          "What would you build or explore using Social Platforms?"
+        ],
+        "estimated_hours": 2.0
+      },
+      {
+        "module_id": "iii-commerce-int",
+        "title": "Commerce",
+        "organ": "iii-ergon",
+        "difficulty": "intermediate",
+        "readings": [
+          "Public Record Data Scrapper"
+        ],
+        "questions": [
+          "What is the core idea behind Commerce?",
+          "How does Commerce connect to ORGAN-III Ergon?",
+          "What would you build or explore using Commerce?"
+        ],
+        "estimated_hours": 2.0
+      }
+    ]
+  },
+  {
+    "path_id": "72fccef6",
+    "title": "Learning Path: I, IV, VI",
+    "total_hours": 39.0,
+    "module_count": 13,
+    "learner": {
+      "name": "Advanced Architect",
+      "organs_of_interest": [
+        "I",
+        "IV",
+        "VI"
+      ],
+      "level": "advanced"
+    },
+    "modules": [
+      {
+        "module_id": "i-recursive-systems-adv",
+        "title": "Recursive Systems",
+        "organ": "i-theoria",
+        "difficulty": "advanced",
+        "readings": [
+          "G\u00f6del, Escher, Bach \u2014 Ch. 13: BlooP and FlooP and GlooP",
+          "G\u00f6del, Escher, Bach \u2014 Ch. 20: Strange Loops, Or Tangled Hierarchies"
+        ],
+        "questions": [
+          "What is the core idea behind Recursive Systems?",
+          "How does Recursive Systems connect to ORGAN-I Theoria?",
+          "What would you build or explore using Recursive Systems?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "i-ontology-adv",
+        "title": "Ontology",
+        "organ": "i-theoria",
+        "difficulty": "advanced",
+        "readings": [
+          "organon-noumenon \u2014 Ontogenetic Morphe"
+        ],
+        "questions": [
+          "What is the core idea behind Ontology?",
+          "How does Ontology connect to ORGAN-I Theoria?",
+          "What would you build or explore using Ontology?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "i-epistemology-adv",
+        "title": "Epistemology",
+        "organ": "i-theoria",
+        "difficulty": "advanced",
+        "readings": [
+          "Steps to an Ecology of Mind \u2014 The Logical Categories of Learning"
+        ],
+        "questions": [
+          "What is the core idea behind Epistemology?",
+          "How does Epistemology connect to ORGAN-I Theoria?",
+          "What would you build or explore using Epistemology?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "i-cognitive-archaeology-adv",
+        "title": "Cognitive Archaeology",
+        "organ": "i-theoria",
+        "difficulty": "advanced",
+        "readings": [
+          "G\u00f6del, Escher, Bach \u2014 Ch. 13: BlooP and FlooP and GlooP",
+          "G\u00f6del, Escher, Bach \u2014 Ch. 20: Strange Loops, Or Tangled Hierarchies",
+          "Steps to an Ecology of Mind \u2014 The Logical Categories of Learning"
+        ],
+        "questions": [
+          "What is the core idea behind Cognitive Archaeology?",
+          "How does Cognitive Archaeology connect to ORGAN-I Theoria?",
+          "What would you build or explore using Cognitive Archaeology?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "i-alchemical-frameworks-adv",
+        "title": "Alchemical Frameworks",
+        "organ": "i-theoria",
+        "difficulty": "advanced",
+        "readings": [
+          "radix-recursiva \u2014 Solve Coagula Redi"
+        ],
+        "questions": [
+          "What is the core idea behind Alchemical Frameworks?",
+          "How does Alchemical Frameworks connect to ORGAN-I Theoria?",
+          "What would you build or explore using Alchemical Frameworks?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "iv-governance-adv",
+        "title": "Governance",
+        "organ": "iv-taxis",
+        "difficulty": "advanced",
+        "readings": [
+          "Cybernetics \u2014 Ch. 1: Newtonian and Bergsonian Time"
+        ],
+        "questions": [
+          "What is the core idea behind Governance?",
+          "How does Governance connect to ORGAN-IV Taxis?",
+          "What would you build or explore using Governance?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "iv-orchestration-adv",
+        "title": "Orchestration",
+        "organ": "iv-taxis",
+        "difficulty": "advanced",
+        "readings": [
+          "Cybernetics \u2014 Ch. 1: Newtonian and Bergsonian Time"
+        ],
+        "questions": [
+          "What is the core idea behind Orchestration?",
+          "How does Orchestration connect to ORGAN-IV Taxis?",
+          "What would you build or explore using Orchestration?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "iv-multi-agent-systems-adv",
+        "title": "Multi-Agent Systems",
+        "organ": "iv-taxis",
+        "difficulty": "advanced",
+        "readings": [
+          "Cybernetics \u2014 Ch. 1: Newtonian and Bergsonian Time"
+        ],
+        "questions": [
+          "What is the core idea behind Multi-Agent Systems?",
+          "How does Multi-Agent Systems connect to ORGAN-IV Taxis?",
+          "What would you build or explore using Multi-Agent Systems?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "iv-dependency-management-adv",
+        "title": "Dependency Management",
+        "organ": "iv-taxis",
+        "difficulty": "advanced",
+        "readings": [
+          "Cybernetics \u2014 Ch. 1: Newtonian and Bergsonian Time"
+        ],
+        "questions": [
+          "What is the core idea behind Dependency Management?",
+          "How does Dependency Management connect to ORGAN-IV Taxis?",
+          "What would you build or explore using Dependency Management?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "vi-salons-adv",
+        "title": "Salons",
+        "organ": "vi-koinonia",
+        "difficulty": "advanced",
+        "readings": [
+          "See ORGAN-VI Koinonia documentation"
+        ],
+        "questions": [
+          "What is the core idea behind Salons?",
+          "How does Salons connect to ORGAN-VI Koinonia?",
+          "What would you build or explore using Salons?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "vi-reading-groups-adv",
+        "title": "Reading Groups",
+        "organ": "vi-koinonia",
+        "difficulty": "advanced",
+        "readings": [
+          "See ORGAN-VI Koinonia documentation"
+        ],
+        "questions": [
+          "What is the core idea behind Reading Groups?",
+          "How does Reading Groups connect to ORGAN-VI Koinonia?",
+          "What would you build or explore using Reading Groups?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "vi-mentorship-adv",
+        "title": "Mentorship",
+        "organ": "vi-koinonia",
+        "difficulty": "advanced",
+        "readings": [
+          "See ORGAN-VI Koinonia documentation"
+        ],
+        "questions": [
+          "What is the core idea behind Mentorship?",
+          "How does Mentorship connect to ORGAN-VI Koinonia?",
+          "What would you build or explore using Mentorship?"
+        ],
+        "estimated_hours": 3.0
+      },
+      {
+        "module_id": "vi-collaborative-ideation-adv",
+        "title": "Collaborative Ideation",
+        "organ": "vi-koinonia",
+        "difficulty": "advanced",
+        "readings": [
+          "See ORGAN-VI Koinonia documentation"
+        ],
+        "questions": [
+          "What is the core idea behind Collaborative Ideation?",
+          "How does Collaborative Ideation connect to ORGAN-VI Koinonia?",
+          "What would you build or explore using Collaborative Ideation?"
+        ],
+        "estimated_hours": 3.0
+      }
+    ]
+  }
+]

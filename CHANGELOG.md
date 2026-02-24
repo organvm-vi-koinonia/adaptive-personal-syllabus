@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-02-24
+
+### Added
+- `data_export` module — generates `data/sample-learning-paths.json` with 3 sample paths (beginner/intermediate/advanced)
+- `aps-data-export` CLI entry point
+- 4 new tests in `tests/test_data_export.py`
+- Produce edge fulfilled: `learning_path` (json+text)
+
 ## [0.5.0] - 2026-02-18
 
 ### Added
