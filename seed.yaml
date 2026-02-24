@@ -12,8 +12,8 @@ org: organvm-vi-koinonia
 metadata:
   implementation_status: ACTIVE
   tier: standard
-  promotion_status: LOCAL
-  last_validated: "2026-02-13"
+  promotion_status: CANDIDATE
+  last_validated: "2026-02-24"
   generated: "2026-02-17"
   sprint: "DEEP-WIDE"
 
