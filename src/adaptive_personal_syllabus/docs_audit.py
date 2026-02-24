@@ -388,25 +388,25 @@ def _aggregate_items(
         grouped[normalized]["source_refs"].append({"rel_path": item.rel_path, "line": item.line})
 
     out: list[dict[str, Any]] = []
-    for normalized, item in grouped.items():
+    for normalized, entry in grouped.items():
         refs = sorted(
-            {(ref["rel_path"], ref["line"]) for ref in item["source_refs"]},
+            {(ref["rel_path"], ref["line"]) for ref in entry["source_refs"]},
             key=lambda pair: (pair[0], pair[1]),
         )
         collapsed_refs = [{"rel_path": rel_path, "line": line} for rel_path, line in refs]
-        item_id = str(item["id"])
+        item_id = str(entry["id"])
         if prefix == "feat" and item_id in overrides:
             milestone_name = overrides[item_id]
             status = "implemented"
             impl_tags = [f"milestone.{milestone_name}"]
             milestone = None
         else:
-            status, impl_tags, milestone = _classify_suggestion(item["text"])
+            status, impl_tags, milestone = _classify_suggestion(entry["text"])
 
         out_item = {
             "id": item_id,
             "normalized_text": normalized,
-            "text": item["text"],
+            "text": entry["text"],
             "status": status,
             "implementation_tags": impl_tags,
             "planned_milestone": milestone,
@@ -610,16 +610,16 @@ class DocsAuditService:
             extracted_suggestions.extend(suggestions)
             extracted_use_cases.extend(use_cases)
 
-        suggestions = _aggregate_items(
+        aggregated_suggestions = _aggregate_items(
             extracted_suggestions,
             prefix="feat",
             status_overrides=status_overrides,
         )
-        use_cases = _aggregate_items(extracted_use_cases, prefix="usecase")
-        milestone_summary, recommended_start = _build_milestone_summary(suggestions)
+        aggregated_use_cases = _aggregate_items(extracted_use_cases, prefix="usecase")
+        milestone_summary, recommended_start = _build_milestone_summary(aggregated_suggestions)
 
-        implemented_count = sum(1 for item in suggestions if item["status"] == "implemented")
-        planned_count = sum(1 for item in suggestions if item["status"] == "planned")
+        implemented_count = sum(1 for item in aggregated_suggestions if item["status"] == "implemented")
+        planned_count = sum(1 for item in aggregated_suggestions if item["status"] == "planned")
 
         snapshot_stats = self.storage.corpus_stats(snapshot_id=snapshot.snapshot_id)
         all_files_ingested = int(snapshot_stats["snapshot"]["doc_count"]) == len(file_manifest)
@@ -642,14 +642,14 @@ class DocsAuditService:
             },
             "files": sorted(file_manifest, key=lambda item: item["rel_path"]),
             "suggestions": {
-                "count": len(suggestions),
+                "count": len(aggregated_suggestions),
                 "implemented_count": implemented_count,
                 "planned_count": planned_count,
-                "items": suggestions,
+                "items": aggregated_suggestions,
             },
             "use_cases": {
-                "count": len(use_cases),
-                "items": use_cases,
+                "count": len(aggregated_use_cases),
+                "items": aggregated_use_cases,
             },
             "milestones": {
                 "summary": milestone_summary,
@@ -664,10 +664,10 @@ class DocsAuditService:
                 "snapshot_id": snapshot.snapshot_id,
                 "snapshot_name": snapshot.snapshot_name,
                 "file_count": len(file_manifest),
-                "suggestion_count": len(suggestions),
+                "suggestion_count": len(aggregated_suggestions),
                 "implemented_count": implemented_count,
                 "planned_count": planned_count,
-                "use_case_count": len(use_cases),
+                "use_case_count": len(aggregated_use_cases),
                 "recommended_start_milestone": recommended_start,
             },
         )
