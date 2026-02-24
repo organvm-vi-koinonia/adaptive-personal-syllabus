@@ -5,19 +5,9 @@ import json
 from pathlib import Path
 from uuid import uuid4
 
-from .models import DifficultyLevel, LearnerProfile, LearningModule, LearningPath
+from koinonia_db.constants import ORGAN_MAP
 
-# Mapping of organs to their roman numeral codes
-ORGAN_MAP = {
-    "I": "i-theoria",
-    "II": "ii-poiesis",
-    "III": "iii-ergon",
-    "IV": "iv-taxis",
-    "V": "v-logos",
-    "VI": "vi-koinonia",
-    "VII": "vii-kerygma",
-    "VIII": "viii-meta",
-}
+from .models import DifficultyLevel, LearnerProfile, LearningModule, LearningPath
 
 
 class SyllabusGenerator:
